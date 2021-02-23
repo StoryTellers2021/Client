@@ -1,6 +1,8 @@
 // This is to get the number of boxes to make.
 var word = getQuery();
 var num = word.length;
+var tochange = "";
+var changed = "";
 
 function getQuery() {
     var query = window.location.search.substring(1);
@@ -14,37 +16,37 @@ for(var i = 0; i<num; i++) {
     document.body.innerHTML += '<div class="box"></div>';
 }
 
-//document.body.innerHTML += '<div class = "letters" draggable = "true"></div>';
+
 const empties = document.querySelectorAll('.box');
 
-empties[0].innerHTML += '<div class = "letters" draggable="true"></div>';
+for(var i =0; i < empties.length; i++) {
+    empties[i].innerHTML += '<div class = "letters" draggable="true"></div>';
+    empties[i].querySelector('.letters').innerHTML += word[i];
+}
 
 
-const letters = document.querySelector('.letters');
+const letters = document.querySelectorAll('.letters');
 
-letters.addEventListener('dragstart', dragStart);
-letters.addEventListener('dragend', dragEnd);
-
-
-for(const empty of empties) {
-    empty.addEventListener('dragenter', dragEnter);
-    empty.addEventListener('dragover', dragOver);
-    empty.addEventListener('dragleave', dragLeave);
-    empty.addEventListener('drop', dragDrop);
+for(const l of letters) {
+    l.addEventListener('dragenter', dragEnter);
+    l.addEventListener('dragover', dragOver);
+    l.addEventListener('dragleave', dragLeave);
+    l.addEventListener('drop', dragDrop);
+    l.addEventListener('dragstart', dragStart);
+    l.addEventListener('dragend', dragEnd);
 }
 
 function dragStart() {
-    console.log("dragStarted!!");
+    tochange = this.innerHTML;
 }
 
 function dragEnd() {
-    console.log('Ended!!');
+    this.innerHTML = changed;
 }
 
 function dragEnter(e) {
-    console.log("entered!!");
     e.preventDefault();
-    this.className += ' hovered'
+    this.parentNode.className += ' hovered';
 }
 
 function dragOver(e) {
@@ -52,11 +54,11 @@ function dragOver(e) {
 }
 
 function dragLeave() {
-    console.log("left!!");
-    this.className = 'box';
+    this.parentNode.className = 'box';
 }
 
 function dragDrop() {
-    this.className = 'box';
-    this.append(letters);
+    this.parentNode.className = 'box';
+    changed = this.innerHTML;
+    this.innerHTML = tochange;
 }
