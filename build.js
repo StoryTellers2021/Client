@@ -8,10 +8,10 @@
 
 const
     version = '1.0',
-    buildCode = 'r1'
+    buildCode = 'r1',
     serverPort = 3333,
     orderedGameJSFiles = [
-        // Put ALL JS fules in the /src folder to be combined into a single file here. Make sure to order according to dependencies.
+        // Put ALL JS fules in the /src/js folder to be combined into a single file here. Make sure to order according to dependencies.
         'Utilities.js',
         'StoryAPI.js'
     ],
@@ -63,17 +63,14 @@ function beautifyJS(js, preamble) {
 
 function minifyJS(js, preamble) {
     const options = {
-        /* mangle: {
-            eval: true,
-            properties: {
-                keep_quoted: 'strict',
-                reserved: {}
-            }
-        }, */
+        mangle: true,
         compress: {
+            defaults: false,
             global_defs: constants
         },
         output: {
+            beautify: false,
+            comments: false,
             preamble: '/* ' + preamble + ' */',
             quote_style: 3
         }
@@ -85,7 +82,7 @@ function getFileOutput(requestFile, nonVerbose){
     let code = 0, type = TEXT_CONTENT_TYPE, text = '';
     switch(requestFile){
         case 'story.js':
-            var preamble = 'story.js version ' + version + ' by THE STORYTELLERS - CMPT 322 Software Engineering', raw = getGameJS(), result = nonVerbose ? minifyJS(raw, preamble) : beautifyJS(raw, preamble);
+            var preamble = 'story.js build ' + buildCode + '\n * THE STORYTELLERS\n * CMPT 322 Software Engineering', raw = getGameJS(), result = nonVerbose ? minifyJS(raw, preamble) : beautifyJS(raw, preamble);
             if(result.error)
                 console.log(result.error),
                 code = 500,
