@@ -45,7 +45,7 @@ function getGameJS(){
     return code;
 }
 
-function beautifyJS(js, preamble) {
+async function beautifyJS(js, preamble) {
     const options = {
         mangle: false,
         compress: {
@@ -59,10 +59,10 @@ function beautifyJS(js, preamble) {
             quote_style: 3
         }
     };
-    return terser.minify(js, options);
+    return await terser.minify(js, options);
 }
 
-function minifyJS(js, preamble) {
+async function minifyJS(js, preamble) {
     const options = {
         mangle: true,
         compress: {
@@ -76,14 +76,14 @@ function minifyJS(js, preamble) {
             quote_style: 3
         }
     };
-    return terser.minify('(function(){' + js + '})();', options);
+    return await terser.minify('(function(){' + js + '})();', options);
 }
 
-function getFileOutput(requestFile, nonVerbose){
+async function getFileOutput(requestFile, nonVerbose){
     let code = 0, type = TEXT_CONTENT_TYPE, text = '';
     switch(requestFile){
         case 'story.js':
-            var preamble = 'story.js build ' + buildCode + '\n * THE STORYTELLERS\n * CMPT 322 Software Engineering', raw = getGameJS(), result = nonVerbose ? minifyJS(raw, preamble) : beautifyJS(raw, preamble);
+            var preamble = 'story.js build ' + buildCode + '\n * THE STORYTELLERS\n * CMPT 322 Software Engineering', raw = getGameJS(), result = nonVerbose ? await minifyJS(raw, preamble) : await beautifyJS(raw, preamble);
             if(result.error)
                 console.log(result.error),
                 code = 500,
@@ -117,8 +117,8 @@ function initServer(nonVerbose){
     constants.DEBUG = constants.LOCAL = true;
     const
         http = require('http'),
-        server = http.createServer(function(request, response){
-            let fileResponse = getFileOutput(request.url.substr(1), nonVerbose), code = fileResponse.code, type = fileResponse.type, text = fileResponse.text;
+        server = http.createServer(async function(request, response){
+            let fileResponse = await getFileOutput(request.url.substr(1), nonVerbose), code = fileResponse.code, type = fileResponse.type, text = fileResponse.text;
             if(code == 0)
                 code = 404,
                 type = HTML_CONTENT_TYPE,
