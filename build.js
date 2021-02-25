@@ -13,7 +13,8 @@ const
     orderedGameJSFiles = [
         // Put ALL JS fules in the /src/js folder to be combined into a single file here. Make sure to order according to dependencies.
         'Utilities.js',
-        'StoryAPI.js'
+        'Word.js',
+        'Story.js'
     ],
     fs = require('fs'), terser = require('terser'),
     LOG_SUCCESS = {
