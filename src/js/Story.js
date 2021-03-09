@@ -1,4 +1,5 @@
-const storyApiUrl = 'http://localhost:8080/Server/v1/api';
+const storyApiUrl = 'http://localhost:8080/api';
+
 var storyApiResponse = {};
 
 /**
@@ -16,6 +17,11 @@ function requestStoryAPI() {
     );
 }
 
+function showHint() {
+    setTimeout(function() {
+        document.getElementById('hint').style.visibility = "visible";
+    }, 10000)
+}
 /**
  * Refreshes the page with the new story.
  * @param {string} unsolvedStory 
@@ -31,7 +37,8 @@ function refreshStory(unsolvedStory, solvedStory, solvableWordIndexes) {
         storyContainer = document.getElementById('storyContainer'),
         // clickableWords = new Array(scrambledWordCount),
         unsolvedWords = new Array(scrambledWordCount),
-        correctWords = new Array(scrambledWordCount);    
+        correctWords = new Array(scrambledWordCount);
+
     var scrabledWordIndex = 0, solvableWordIndex = solvableWordIndexes[0];
     for(var wordIndex = 0; wordIndex < wordCount; wordIndex++){
         const word = words[wordIndex], wordElement = document.createElement('span');
