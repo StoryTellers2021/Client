@@ -1,7 +1,7 @@
 /**
  * Outputs a fancy colored log message.
  * Taken from iiod.io - EssentialUtilities.js
- * @author Tim Tripp
+ * @author Timur Tripp
  * @param {*} message 
  * @param {object} type 
  */
@@ -94,8 +94,8 @@ function requestJSON(url, onSuccessFunction, onErrorFunction, softTimeout) {
                 }
             } else if (this.readyState === 4 && this.status !== 200)
                 timer && clearTimeout(timer),
-                    log('XMLHttpRequest (Legacy): ' + logURL + ' returned status code ' + this.status + '.', LOG_FAILURE),
-                    onErrorFunction && onErrorFunction();
+                log('XMLHttpRequest (Legacy): ' + logURL + ' returned status code ' + this.status + '.', LOG_FAILURE),
+                onErrorFunction && onErrorFunction();
         };
         request.open('GET', url);
         request.send();
