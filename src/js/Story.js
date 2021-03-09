@@ -18,9 +18,7 @@ function requestStoryAPI() {
 }
 
 function showHint() {
-    setTimeout(function() {
-        document.getElementById('hint').style.visibility = "visible";
-    }, 10000)
+    document.getElementById('hint').style.visibility = "visible";
 }
 /**
  * Refreshes the page with the new story.
