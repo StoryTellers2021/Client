@@ -124,6 +124,15 @@ function getHint(cw) {
             if (l.textContent === word[i]) {
                 l.textContent = letters[i].textContent;
                 letters[i].textContent = word[i];
+                letters[i].className = 'lettershint';
+
+                letters[i].setAttribute('draggable', false);
+                letters[i].removeEventListener('dragstart', dragStart);
+                letters[i].removeEventListener('dragleave', dragLeave);
+                letters[i].removeEventListener('dragenter', dragEnter);
+                letters[i].removeEventListener('dragover', dragOver);
+                letters[i].removeEventListener('drop', dragDrop);
+                letters[i].removeEventListener('dragend', dragEnd);
             }
         }
     }
