@@ -6,13 +6,16 @@
  * @param {string} unsolvedWord 
  * @param {string} correctWord 
  */
+
+var word_index;
+
 function refreshWord(scrabledWordIndex, clickableWord, unsolvedWord, correctWord) {
     cw = correctWord;
     const word = unsolvedWord, wordContainer = document.getElementById('wordContainer');
     var num = word.length;
+    word_index = scrabledWordIndex;
 
     button = document.getElementById('hint');
-    document.getElementById('hint').style.visibility = "hidden";
 
     setTimeout(function () { showHint() }, 10000);
 
@@ -57,12 +60,8 @@ function check() {
         temp += l.innerHTML;
     }
 
-    if (temp === "hello") {
-        console.log("Correct");
-    }
-    else {
-        console.log("Close!");
-    }
+    return temp;
+
 }
 
 // This is to get what the query gets so that we can make boxes accordingly.
@@ -115,6 +114,10 @@ function showHint() {
     document.getElementById('hint').style.visibility = "visible";
 }
 
+/**
+ * Get hint reshuffles the words with certain number of correct words.
+ * @param {string} cw
+ */
 function getHint(cw) {
     const letters = document.querySelectorAll('.letters'), word = cw;
     let num = word.length;
@@ -136,4 +139,36 @@ function getHint(cw) {
             }
         }
     }
+}
+
+/**
+ * Function to validate the student word after submit has been pressed
+ */
+function validateStudentWord() {
+    document.body.innerHTML += "<form id='f' style='visibility: hidden'></form>";
+    let f = document.getElementById('f');
+
+    f.innerHTML += "<input type='hidden' name='student-id'/>";
+    f.innerHTML += "<input type='hidden' name='word-index'/>";
+    f.innerHTML += "<input type='hidden' name='word-solution'/>";
+
+    let word_solution = check();
+
+    document.getElementsByName('student-id')[0].value = s_id;
+    document.getElementsByName('word-index')[0].value = word_index;
+    document.getElementsByName('word-solution')[0].value = word_solution;
+
+    const f_real = f;
+
+    requestJSON(
+        studentApiUrl,
+        function (responseObject) {
+            refreshStory(responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
+                responseObject['result']['story']['solvableWordIndexes']);
+        }, function () {
+            log('Oh no, the student data failed to load!', LOG_FAILURE);
+            // TODO: Put the error handling stuff here.
+        }, false,
+        f_real
+    );
 }

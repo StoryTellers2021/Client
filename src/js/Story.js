@@ -1,20 +1,36 @@
-const storyApiUrl = 'http://localhost:8080/api';
+const studentApiUrl = 'http://localhost:8080/api/v1/student';
+const form = document.getElementById('myform');
+var s_id;
 
-var storyApiResponse = {};
-var correctWord = "";
-/**
- * Requests the story from the server.
- */
-function requestStoryAPI() {
-    requestJSON(
-        storyApiUrl,
-        function (responseObject) {
-            refreshStory(responseObject['unsolvedStory'], responseObject['solvedStory'], responseObject['solvableWordIndexes'])
-        }, function () {
-            log('Oh no, the story failed to load!', LOG_FAILURE);
-            // TODO: Put the error handling stuff here.
-        }, true
-    );
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    requestStudentAPI();
+});
+
+function requestStudentAPI() {
+    if(document.getElementsByName('student-id')[0].value == null) {
+        alert("Please input a student id to login");
+    }
+    else {
+        requestJSON(
+            studentApiUrl,
+            function (responseObject) {
+                if (responseObject['result'] === null) {
+                    alert('No student with the id ' + document.getElementsByName('student-id')[0].value);
+                } else {
+                    s_id = document.getElementsByName('student-id')[0].value;
+
+                    location.replace("src/story.html")
+                    refreshStory(responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
+                        responseObject['result']['story']['solvableWordIndexes']);
+                }
+            }, function () {
+                log('Oh no, the student data failed to load!', LOG_FAILURE);
+                // TODO: Put the error handling stuff here.
+            }, false,
+            form
+        );
+    }
 }
 
 /**
@@ -32,8 +48,7 @@ function refreshStory(unsolvedStory, solvedStory, solvableWordIndexes) {
         storyContainer = document.getElementById('storyContainer'),
         // clickableWords = new Array(scrambledWordCount),
         unsolvedWords = new Array(scrambledWordCount),
-        correctWords = new Array(scrambledWordCount);
-
+        correctWords = new Array(scrambledWordCount);    
     var scrabledWordIndex = 0, solvableWordIndex = solvableWordIndexes[0];
     for(var wordIndex = 0; wordIndex < wordCount; wordIndex++){
         const word = words[wordIndex], wordElement = document.createElement('span');
@@ -46,16 +61,14 @@ function refreshStory(unsolvedStory, solvedStory, solvableWordIndexes) {
             wordElement.onclick = function(event) {
                 const scrabledWordIndex = parseInt(this.getAttribute('data-swi'));
                 refreshWord(scrabledWordIndex, this, unsolvedWords[scrabledWordIndex], correctWords[scrabledWordIndex]);
-                correctWord = unsolvedWords[scrabledWordIndex];
             };
             solvableWordIndex = ++scrabledWordIndex < scrambledWordCount ? solvableWordIndexes[scrabledWordIndex] : -1;
         } else wordElement.className = 'word';
         wordElement.innerText = word;
         storyContainer.appendChild(wordElement);
-
     }
 }
 
-addEventListener('DOMContentLoaded', function (event) {
-    requestStoryAPI();
-});
+//addEventListener('DOMContentLoaded', function (event) {
+//    requestStudentAPI();
+//});

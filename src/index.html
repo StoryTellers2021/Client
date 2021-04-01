@@ -3,11 +3,19 @@
     <head>
         <title>The Storytellers</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" src="story.js"></script>
     </head>
-    <body onload="setTimeout(function() { showHint() }, 10000)">
-        <div id="storyContainer"></div>
-        <div id="wordContainer"></div>
-        <button id="hint" style="visibility: hidden;">hint</button>
+    <body>
+        <div class="intro" id="login">
+            <h1>Log In</h1>
+            <form id='myform' method="POST">
+                <span></span>
+                <label>Student ID</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="student-id" placeholder="Student ID"/>
+                </div>
+                <input class='button button1' type="submit" value="Go"/>
+            </form>
+        </div>
+        <script type="text/javascript" src="story.js"></script>
     </body>
 </html>
