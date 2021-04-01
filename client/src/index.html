@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Storytellers</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <div class="intro" id="login">
+            <h1>Log In</h1>
+            <button class="button button1" id="teacher" onclick="showTeacher()">Teacher</button>
+            <button class="button button1" id="Student" onclick="showStudent()">Student</button>
+            <form id='myformStudent' method="POST">
+                <span></span>
+                <label>Student ID</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="student-id" placeholder="Student ID"/>
+                </div>
+                <input class='button button1' type="submit" value="Go"/>
+            </form>
+            <form id='myformTeacher' method="POST"  style="display: none">
+                <span></span>
+                <label>Teacher ID</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="teacher-code" placeholder="Teacher ID"/>
+                </div>
+                <input class='button button1' type="submit" value="Go"/>
+            </form>
+        </div>
+        
+        <div id="storyContainer"></div>
+        <div id="wordContainer"></div>
+        <button id="hint" style="visibility: hidden">Get hint</button>
+        <button id="word_go" onclick="validateStudentWord()" style = "visibility: hidden;">Confirm</button>
+        
+        <form id="studentSolution" method="POST">
+            <input type="hidden" name="student-id" id="studentSolutionId" value="">
+            <input type="hidden" name="word-index" id="studentSolutionWordIndex" value="">
+            <input type="hidden" name="word-solution" id="studentSolutionWordSolution" value="">
+        </form>
+        
+        <script type="text/javascript" src="story.js"></script>
+    </body>
+</html>
