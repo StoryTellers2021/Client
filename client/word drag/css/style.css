@@ -1,0 +1,30 @@
+body {
+    background: darksalmon;
+}
+
+.box {
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    border: 3px salmon solid;
+    background-color: white;
+}
+
+.letters {
+    background: yellow;
+    position: relative;
+    height: 60px;
+    width: 60px;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+}
+
+.hold {
+    border: solid #ccc 4px;
+}
+
+.hovered {
+    background: #f4f4f4;
+    border-style: dashed;
+}
