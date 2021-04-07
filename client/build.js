@@ -125,6 +125,11 @@ async function getFileOutput(requestFile, nonVerbose){
                 code = 200;
                 type = HTML_CONTENT_TYPE;
                 text = fs.readFileSync('src/neemSelectS.html', 'utf-8');
+        break;
+        case 'addStudent.html':
+                code = 200;
+                type = HTML_CONTENT_TYPE;
+                text = fs.readFileSync('src/addStudent.html', 'utf-8');
         
     }
     code == 0 ? console.log('Unrecognized file `' + requestFile + '`, output is empty.') : console.log('Output file `' + requestFile + '`.');

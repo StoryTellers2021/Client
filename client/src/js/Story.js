@@ -146,6 +146,10 @@ function login(){
     location.replace('./../index.html');
 }
 
+function addStudent() {
+    location.replace('./../addStudent.html');
+}
+
 
 //teacherChoose.js
 //
@@ -159,6 +163,8 @@ function choose(){
         addStory();
     }else if (document.getElementById("3").checked){
         alert("Game has been started");
+    }else if (document.getElementById("4").checked){
+        addStudent();
     
     }else{
 
@@ -166,7 +172,7 @@ try{
     let noe = document.querySelector("input[name=choose]:checked").value;
     console.log(noe); 
 }catch(err){
-    alert("Please choose a story");
+    alert("Please select something to do");
 }
 }
 }

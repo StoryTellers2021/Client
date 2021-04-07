@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="utf-8">
+    
+    <title>teacherAddStudent</title>
+    
+    </head>
+    <body>
+        <div class="intro" id="login">
+            <h1>Add Student</h1>
+            <h4> Input student information</h4>
+            <form id='addStudent' method="POST">
+                
+                <label>First name</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="firstName" placeholder="First Name"/>
+                </div>
+
+                <label>Last Name</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="lastName" placeholder="Last Name"/>
+                </div>
+
+                <label>Student ID</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="studentId" placeholder="Student ID"/>
+                </div>
+                
+                <input class='button button1' type="submit" value="Submit"/>
+            </form>
+
+                <input class='button button1' type="submit" value="Go back"  onclick="teacherSide()"/>
+                
+            
+        </div>
+        
+        
+        
+        
+        
+        <script type="text/javascript" src="story.js"></script>
+    </body>
+</html>
