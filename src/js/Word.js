@@ -10,12 +10,17 @@
 var word_index;
 
 function refreshWord(scrabledWordIndex, clickableWord, unsolvedWord, correctWord) {
-    cw = correctWord;
+    let cw = correctWord;
     const word = unsolvedWord, wordContainer = document.getElementById('wordContainer');
-    var num = word.length;
+    let num = word.length;
     word_index = scrabledWordIndex;
 
-    button = document.getElementById('hint');
+    console.log(scrabledWordIndex);
+    console.log(clickableWord);
+    
+
+    let button = document.getElementById('hint');
+    button.style.visibility = 'hidden';
 
     setTimeout(function () { showHint() }, 10000);
 
@@ -55,7 +60,8 @@ var changed = "";
 
 // function to check if the word is correct or not.
 function check() {
-    var temp = ""
+    var temp = "";
+    const letters = document.querySelectorAll('.letters');
     for(const l of letters) {
         temp += l.innerHTML;
     }
@@ -145,30 +151,38 @@ function getHint(cw) {
  * Function to validate the student word after submit has been pressed
  */
 function validateStudentWord() {
-    document.body.innerHTML += "<form id='f' style='visibility: hidden'></form>";
-    let f = document.getElementById('f');
+    // document.body.innerHTML += "<form id='f' style='visibility: hidden'></form>";
+    const f = document.getElementById('studentSolution');
 
-    f.innerHTML += "<input type='hidden' name='student-id'/>";
-    f.innerHTML += "<input type='hidden' name='word-index'/>";
-    f.innerHTML += "<input type='hidden' name='word-solution'/>";
+    // f.innerHTML += "<input type='hidden' name='student-id'/>";
+    // f.innerHTML += "<input type='hidden' name='word-index'/>";
+    // f.innerHTML += "<input type='hidden' name='word-solution'/>";
 
     let word_solution = check();
 
-    document.getElementsByName('student-id')[0].value = s_id;
-    document.getElementsByName('word-index')[0].value = word_index;
-    document.getElementsByName('word-solution')[0].value = word_solution;
+    document.getElementById('studentSolutionId').value = document.cookie;
+    document.getElementById('studentSolutionWordIndex').value = word_index;
+    document.getElementById('studentSolutionWordSolution').value = word_solution;
 
-    const f_real = f;
 
+    //const f_real = f;
     requestJSON(
         studentApiUrl,
         function (responseObject) {
-            refreshStory(responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
-                responseObject['result']['story']['solvableWordIndexes']);
+            if(responseObject['result'] == null){
+                console.log(responseObject);
+            }else{
+                document.getElementById("storyContainer").innerHTML = "";
+                document.getElementById("wordContainer").innerHTML = "";
+
+                refreshStory(responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
+                responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
+
+            }
         }, function () {
+
             log('Oh no, the student data failed to load!', LOG_FAILURE);
-            // TODO: Put the error handling stuff here.
         }, false,
-        f_real
+        f
     );
 }

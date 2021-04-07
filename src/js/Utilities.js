@@ -37,12 +37,12 @@ function isDataURL(url) {
  * @param {Function} onSuccessFunction 
  * @param {Function} onErrorFunction 
  * @param {Boolean} softTimeout 
- * @param {HTMLElement} formToSubmit
+ * @param {HTMLFormElement} formToSubmit
  */
 function requestJSON(url, onSuccessFunction, onErrorFunction, softTimeout, formToSubmit) {
     const
         dataURL = isDataURL(url),
-        timeout = 2500; // The amount of time (ms) that must pass before the request times out.
+        timeout = 250000; // The amount of time (ms) that must pass before the request times out.
     if (window.fetch) { // The fetch API is the newer, cleaner way to do this.
         const request = new Request(url),
             logURL = dataURL ? 'a massive data url that can not be comprehended by mere mortals has' : request.url;
@@ -53,6 +53,7 @@ function requestJSON(url, onSuccessFunction, onErrorFunction, softTimeout, formT
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 'body': new URLSearchParams(new FormData(formToSubmit)).toString()
+                
             } : {
                 'method': 'GET'
             }).then(function (response) {
@@ -104,7 +105,9 @@ function requestJSON(url, onSuccessFunction, onErrorFunction, softTimeout, formT
         };
         if(formToSubmit) {
             request.open('POST', url);
+            
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+           
             request.send(new URLSearchParams(new FormData(formToSubmit)).toString());
         } else {
             request.open('GET', url);

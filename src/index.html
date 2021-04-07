@@ -7,7 +7,9 @@
     <body>
         <div class="intro" id="login">
             <h1>Log In</h1>
-            <form id='myform' method="POST">
+            <button class="button button1" id="teacher" onclick="showTeacher()">Teacher</button>
+            <button class="button button1" id="Student" onclick="showStudent()">Student</button>
+            <form id='myformStudent' method="POST">
                 <span></span>
                 <label>Student ID</label>
                 <div class = 'text_field'>
@@ -15,7 +17,26 @@
                 </div>
                 <input class='button button1' type="submit" value="Go"/>
             </form>
+            <form id='myformTeacher' method="POST"  style="display: none">
+                <span></span>
+                <label>Teacher ID</label>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="teacher-code" placeholder="Teacher ID"/>
+                </div>
+                <input class='button button1' type="submit" value="Go"/>
+            </form>
         </div>
+
+        <div id="storyContainer"></div>
+        <div id="wordContainer"></div>
+        <button id="hint" style="visibility: hidden">Get hint</button>
+        <button id="word_go" style="visibility: hidden" onclick="validateStudentWord()">Confirm</button>
+
+        <form id="studentSolution" method="post">
+            <input type="hidden" id="studentSolutionId" name="student-id"/>
+            <input type="hidden" id="studentSolutionWordIndex" name="word-index"/>
+            <input type="hidden" id="studentSolutionWordSolution" name="word-solution"/>
+        </form>
         <script type="text/javascript" src="story.js"></script>
     </body>
 </html>
