@@ -5,7 +5,6 @@
  * Modified from iiod.io - build.js.
  * @author Timur Tripp
  */
-
 const
     version = '1.0',
     buildCode = 'r1',
@@ -15,6 +14,8 @@ const
         'Utilities.js',
         'Word.js',
         'Story.js'
+        
+
     ],
     fs = require('fs'), terser = require('terser'),
     LOG_SUCCESS = {
@@ -104,6 +105,38 @@ async function getFileOutput(requestFile, nonVerbose){
             code = 200;
             type = HTML_CONTENT_TYPE;
             text = fs.readFileSync('src/index.html', 'utf-8');
+        break;
+        case 'story.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/story.html', 'utf-8');
+        break;
+        case 'teacherChoose.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/teacherChoose.html', 'utf-8');
+        break;
+        case 'addStory.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/addStory.html', 'utf-8');
+        break;
+        case 'studentprogress.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/studentprogress.html', 'utf-8');
+
+        break;
+        case 'neemSelectS.html':
+                code = 200;
+                type = HTML_CONTENT_TYPE;
+                text = fs.readFileSync('src/neemSelectS.html', 'utf-8');
+        break;
+        case 'addStudent.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/addStudent.html', 'utf-8');
+        
     }
     code == 0 ? console.log('Unrecognized file `' + requestFile + '`, output is empty.') : console.log('Output file `' + requestFile + '`.');
     return {
