@@ -136,7 +136,21 @@ async function getFileOutput(requestFile, nonVerbose){
             code = 200;
             type = HTML_CONTENT_TYPE;
             text = fs.readFileSync('src/addStudent.html', 'utf-8');
-        
+        break;
+        case 'SelectWords.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/SelectWords.html', 'utf-8');
+        break;
+        case 'scrambleWords.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/scrambleWords.html', 'utf-8');
+        break;
+        case 'editStory.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/editStory.html', 'utf-8');
     }
     code == 0 ? console.log('Unrecognized file `' + requestFile + '`, output is empty.') : console.log('Output file `' + requestFile + '`.');
     return {

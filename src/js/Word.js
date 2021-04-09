@@ -22,11 +22,15 @@ function refreshWord(scrabledWordIndex, clickableWord, unsolvedWord, correctWord
     let button = document.getElementById('hint');
     button.style.visibility = 'hidden';
 
-    setTimeout(function () { showHint() }, 10000);
+    setTimeout(function () {
+        showHint();
+    }, 10000);
 
-    button.addEventListener('click', function () {
-        getHint(cw);
-    }, false);
+    //button.addEventListener('click', function () {
+    //    getHint(correctWord);
+    //}, false);
+
+    button.addEventListener('click', getHint.bind(null, correctWord), false)
 
     wordContainer.innerHTML = '';
     // Add a specific number of boxes in the html file.
@@ -62,6 +66,14 @@ var changed = "";
 function check() {
     var temp = "";
     const letters = document.querySelectorAll('.letters');
+    const hint_letters = document.querySelectorAll('.lettershint');
+
+    if (hint_letters) {
+        for(const k of hint_letters) {
+            temp += k.innerHTML;
+        }
+    }
+
     for(const l of letters) {
         temp += l.innerHTML;
     }
@@ -129,11 +141,14 @@ function getHint(cw) {
     let num = word.length;
 
     for (var i = 0; i < Math.ceil(num/3); i++) {
+        let found = false;
         for (const l of letters) {
-            if (l.textContent === word[i]) {
+            if (l.textContent === word[i] && !found) {
                 l.textContent = letters[i].textContent;
+
                 letters[i].textContent = word[i];
                 letters[i].className = 'lettershint';
+                found = true;
 
                 letters[i].setAttribute('draggable', false);
                 letters[i].removeEventListener('dragstart', dragStart);
@@ -145,22 +160,19 @@ function getHint(cw) {
             }
         }
     }
+
+    let button = document.getElementById('hint');
+    button.style.visibility = 'hidden';
 }
 
 /**
  * Function to validate the student word after submit has been pressed
  */
 function validateStudentWord() {
-    // document.body.innerHTML += "<form id='f' style='visibility: hidden'></form>";
     const f = document.getElementById('studentSolution');
-
-    // f.innerHTML += "<input type='hidden' name='student-id'/>";
-    // f.innerHTML += "<input type='hidden' name='word-index'/>";
-    // f.innerHTML += "<input type='hidden' name='word-solution'/>";
-
     let word_solution = check();
 
-    document.getElementById('studentSolutionId').value = document.cookie;
+    document.getElementById('studentSolutionId').value = getCookie("sid");
     document.getElementById('studentSolutionWordIndex').value = word_index;
     document.getElementById('studentSolutionWordSolution').value = word_solution;
 
