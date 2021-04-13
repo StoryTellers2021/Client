@@ -22,6 +22,12 @@
       <button id ="1">Add story</button> 
       <button id = "two"> Submit to database </button>
       <button onclick="window.location.href='teacherChoose.html'">Go back</button>
+
+      <form id="add_story_form" method="post">
+          <input type="hidden" id="teacher_add_id" name="teacher-code">
+          <input type="hidden" id="story_add" name="story">
+          <input type="hidden" id="story_add_index" name="scrambled-words">
+      </form>
       <script type="text/javascript" src="story.js"></script>
   </body>
 </html> 

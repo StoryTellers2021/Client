@@ -1,37 +1,53 @@
-// This is to get the number of boxes to make.
-const word = getQuery();
-var num = word.length;
-var tochange = "";
-var changed = "";
 
-// Add a specific number of boxes in the html file.
-for(var i = 0; i<num; i++) {
-    document.body.innerHTML += '<div class="box"></div>';
+//setTimeout(function() {
+//    document.body.innerHTML += "<button>hint</button>";
+//    clearTimeout();
+//}, 10000);
+
+
+getWord();
+
+// This function gets the words displayed in the webpage.
+async function getWord() {
+    const response = await fetch("//localhost:8080/api");
+    const data = await response.json();
+
+    var indexes = data.solvableWordIndexes;
+    var word = data.unsolvedStory.split(" ")[indexes[1]];
+    console.log(word)
+   
+    //var word = getQuery();
+    var num = word.length;
+    var tochange = "";
+    var changed = "";
+
+
+    // Add a specific number of boxes in the html file.
+    for(var i = 0; i<num; i++) {
+        document.body.innerHTML += '<div class="box"></div>';
+    }
+
+
+    const empties = document.querySelectorAll('.box');
+
+    for(var i =0; i < empties.length; i++) {
+        empties[i].innerHTML += '<div class = "letters" draggable="true"></div>';
+        empties[i].querySelector('.letters').innerHTML += word[i];
+    }
+
+
+    const letters = document.querySelectorAll('.letters');
+
+    for(const l of letters) {
+        l.addEventListener('dragenter', dragEnter);
+        l.addEventListener('dragover', dragOver);
+        l.addEventListener('dragleave', dragLeave);
+        l.addEventListener('drop', dragDrop);
+        l.addEventListener('dragstart', dragStart);
+        l.addEventListener('dragend', dragEnd);
+    }
+
 }
-
-
-const empties = document.querySelectorAll('.box');
-
-for(var i =0; i < empties.length; i++) {
-    empties[i].innerHTML += '<div class = "letters" draggable="true"></div>';
-    empties[i].querySelector('.letters').innerHTML += word[i];
-}
-
-
-const letters = document.querySelectorAll('.letters');
-
-for(const l of letters) {
-    l.addEventListener('dragenter', dragEnter);
-    l.addEventListener('dragover', dragOver);
-    l.addEventListener('dragleave', dragLeave);
-    l.addEventListener('drop', dragDrop);
-    l.addEventListener('dragstart', dragStart);
-    l.addEventListener('dragend', dragEnd);
-}
-
-/*setTimeout(function() {
-    document.body.innerHTML += "<button>hint</button>";
-}, 10000);*/
 
 // function to check if the word is correct or not.
 function check() {
@@ -46,14 +62,6 @@ function check() {
     else {
         console.log("Close!");
     }
-}
-
-// This is to get what the query gets so that we can make boxes accordingly.
-function getQuery() {
-    var query = window.location.search.substring(1);
-    console.log(query);
-    
-    return query;
 }
 
 // function that activates when mouse clicks.
@@ -93,3 +101,4 @@ function dragDrop() {
     changed = this.innerHTML;
     this.innerHTML = tochange;
 }
+
