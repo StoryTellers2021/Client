@@ -48,13 +48,7 @@ Word.prototype = {
                     found = true;
     
                     letters[i].setAttribute('draggable', false);
-                    letters[i].setAttribute('data-solved', 'true');
-                    l.ondragenter = null;
-                    l.ondragover = null;
-                    l.ondragleave = null;
-                    l.ondrop = null;
-                    l.ondragstart = null;
-                    l.ondragend = null;
+                    letters[i].dataset['solved'] = 'true';
                 }
             }
         }
@@ -101,7 +95,7 @@ Word.prototype = {
         const empties = document.querySelectorAll('.box');
     
         for (var i = 0; i < empties.length; i++) 
-            empties[i].innerHTML += '<div class = "letters" draggable="true" data-letter-index="' + i + '">' + word[i] + '</div>';
+            empties[i].innerHTML += '<div class="letters" draggable="true" data-solved="false" data-letter-index="' + i + '">' + word[i] + '</div>';
     
     
         const letters = document.querySelectorAll('.letters');
@@ -109,7 +103,7 @@ Word.prototype = {
         const swapLetters = this.swapLetters.bind(this);
         for (const l of letters) {
             l.ondragover = function(event) {
-                if(dragStartElement == this) return;
+                if(dragStartElement == this || this.dataset['solved'] == 'true') return;
                 event.preventDefault();
                 this.parentNode.className = 'box hovered';
             };
