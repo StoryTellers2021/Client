@@ -8,11 +8,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        This is the story example.Just for reference I have two words.
-        <a href="index.html?ohues">eouhs</a>
-        <a href="index.html?heomitnsg">something</a>
-    </div>
+    <h1> Example story </h1>
+
+    <div id="myData"></div>
+    
+    <button><a href="index.html">Go</a></button>
+    <script>
+        fetch("//localhost:8080/api")
+        .then(response => {
+            if(response) {
+                return response.json()
+            }
+            else {
+                throw Error("ERROR")
+            }
+        })
+        .then(data => {
+            document.querySelector('#myData').innerHTML = data.unsolvedStory
+        })
+        .catch(error => {
+            console.log("ERROR")
+        })
+    </script>
 </body>
 </html>
-            

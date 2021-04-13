@@ -4,7 +4,7 @@
         <title>The Storytellers</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
     </head>
-    <body>
+    <body onload="clearCookie()">
         <div class="intro" id="login">
             <h1>Log In</h1>
             <button class="button button1" id="teacher" onclick="showTeacher()">Teacher</button>
@@ -26,18 +26,17 @@
                 <input class='button button1' type="submit" value="Go"/>
             </form>
         </div>
-        
+
         <div id="storyContainer"></div>
         <div id="wordContainer"></div>
         <button id="hint" style="visibility: hidden">Get hint</button>
-        <button id="word_go" onclick="validateStudentWord()" style = "visibility: hidden;">Confirm</button>
-        
-        <form id="studentSolution" method="POST">
-            <input type="hidden" name="student-id" id="studentSolutionId" value="">
-            <input type="hidden" name="word-index" id="studentSolutionWordIndex" value="">
-            <input type="hidden" name="word-solution" id="studentSolutionWordSolution" value="">
+        <button id="word_go" style="visibility: hidden" onclick="validateStudentWord()">Confirm</button>
+
+        <form id="studentSolution" method="post">
+            <input type="hidden" id="studentSolutionId" name="student-id"/>
+            <input type="hidden" id="studentSolutionWordIndex" name="word-index"/>
+            <input type="hidden" id="studentSolutionWordSolution" name="word-solution"/>
         </form>
-        
         <script type="text/javascript" src="story.js"></script>
     </body>
 </html>
