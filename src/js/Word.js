@@ -7,8 +7,18 @@
  * @param {string} correctWord 
  */
 function refreshWord(scrabledWordIndex, clickableWord, unsolvedWord, correctWord) {
+    cw = correctWord;
     const word = unsolvedWord, wordContainer = document.getElementById('wordContainer');
     var num = word.length;
+
+    button = document.getElementById('hint');
+    document.getElementById('hint').style.visibility = "hidden";
+
+    setTimeout(function () { showHint() }, 10000);
+
+    button.addEventListener('click', function () {
+        getHint(cw);
+    }, false);
 
     wordContainer.innerHTML = '';
     // Add a specific number of boxes in the html file.
@@ -39,10 +49,6 @@ function refreshWord(scrabledWordIndex, clickableWord, unsolvedWord, correctWord
 
 var tochange = "";
 var changed = "";
-
-/*setTimeout(function() {
-    document.body.innerHTML += "<button>hint</button>";
-}, 10000);*/
 
 // function to check if the word is correct or not.
 function check() {
@@ -103,4 +109,22 @@ function dragDrop() {
     this.parentNode.className = 'box';
     changed = this.innerHTML;
     this.innerHTML = tochange;
+}
+
+function showHint() {
+    document.getElementById('hint').style.visibility = "visible";
+}
+
+function getHint(cw) {
+    const letters = document.querySelectorAll('.letters'), word = cw;
+    let num = word.length;
+
+    for (var i = 0; i < Math.ceil(num/3); i++) {
+        for (const l of letters) {
+            if (l.textContent === word[i]) {
+                l.textContent = letters[i].textContent;
+                letters[i].textContent = word[i];
+            }
+        }
+    }
 }

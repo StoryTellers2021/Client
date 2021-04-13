@@ -1,6 +1,7 @@
-const storyApiUrl = 'http://localhost:8080/Server/v1/api';
-var storyApiResponse = {};
+const storyApiUrl = 'http://localhost:8080/api';
 
+var storyApiResponse = {};
+var correctWord = "";
 /**
  * Requests the story from the server.
  */
@@ -31,7 +32,8 @@ function refreshStory(unsolvedStory, solvedStory, solvableWordIndexes) {
         storyContainer = document.getElementById('storyContainer'),
         // clickableWords = new Array(scrambledWordCount),
         unsolvedWords = new Array(scrambledWordCount),
-        correctWords = new Array(scrambledWordCount);    
+        correctWords = new Array(scrambledWordCount);
+
     var scrabledWordIndex = 0, solvableWordIndex = solvableWordIndexes[0];
     for(var wordIndex = 0; wordIndex < wordCount; wordIndex++){
         const word = words[wordIndex], wordElement = document.createElement('span');
@@ -44,11 +46,13 @@ function refreshStory(unsolvedStory, solvedStory, solvableWordIndexes) {
             wordElement.onclick = function(event) {
                 const scrabledWordIndex = parseInt(this.getAttribute('data-swi'));
                 refreshWord(scrabledWordIndex, this, unsolvedWords[scrabledWordIndex], correctWords[scrabledWordIndex]);
+                correctWord = unsolvedWords[scrabledWordIndex];
             };
             solvableWordIndex = ++scrabledWordIndex < scrambledWordCount ? solvableWordIndexes[scrabledWordIndex] : -1;
         } else wordElement.className = 'word';
         wordElement.innerText = word;
         storyContainer.appendChild(wordElement);
+
     }
 }
 

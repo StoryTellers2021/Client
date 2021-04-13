@@ -5,8 +5,9 @@
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" src="story.js"></script>
     </head>
-    <body>
+    <body onload="setTimeout(function() { showHint() }, 10000)">
         <div id="storyContainer"></div>
         <div id="wordContainer"></div>
+        <button id="hint" style="visibility: hidden;">hint</button>
     </body>
 </html>
