@@ -100,7 +100,7 @@ Word.prototype = {
     
         const letters = document.querySelectorAll('.letters');
     
-        const swapLetters = this.swapLetters.bind(this);
+        const swapLetters = this.swapLetters.bind(this), checkStudentSolution = this.checkStudentSolution.bind(this);
         for (const l of letters) {
             l.ondragover = function(event) {
                 if(dragStartElement == this || this.dataset['solved'] == 'true') return;
@@ -118,6 +118,7 @@ Word.prototype = {
                 this.innerText = studentSolution[newIndex];
                 dragStartElement.innerText = studentSolution[oldIndex];
                 this.parentNode.className = 'box';
+                checkStudentSolution();
             };
         }    
 
@@ -131,16 +132,16 @@ Word.prototype = {
     },
     showHint: function() {
         const num = this.solvedWord.length;
-        this.showLettersSolved(Math.min(this.hintsUsed * Math.ceil(num/3), num));    
+        this.showLettersSolved(Math.min(this.hintsUsed * 2, num));    
         this.hintLastUsedTs = Date.now();
         this.beginHintTimer();
+        this.checkStudentSolution();
     },
     swapLetters: function(oldIndex, newIndex) {
         var str = this.studentSolution;
         str = str.substring(0, oldIndex) + this.studentSolution[newIndex] + str.substring(oldIndex + 1);
         str = str.substring(0, newIndex) + this.studentSolution[oldIndex] + str.substring(newIndex + 1);
         this.clickableWordElement.innerText = this.studentSolution = str;
-        this.checkStudentSolution();
         return str;
     },
     checkStudentSolution: function() {
