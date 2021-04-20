@@ -1,200 +1,178 @@
+var activeWord, dragStartElement;
 
-/**
- * Refreshes the page with the new word to unscramble.
- * @param {number} scrabledWordIndex 
- * @param {HTMLElement} clickableWord 
- * @param {string} unsolvedWord 
- * @param {string} correctWord 
- */
-
-var word_index;
-
-function refreshWord(scrabledWordIndex, clickableWord, unsolvedWord, correctWord) {
-    let cw = correctWord;
-    const word = unsolvedWord, wordContainer = document.getElementById('wordContainer');
-    let num = word.length;
-    word_index = scrabledWordIndex;
-
-    console.log(scrabledWordIndex);
-    console.log(clickableWord);
-    
-
-    let button = document.getElementById('hint');
-    button.style.visibility = 'hidden';
-
-    setTimeout(function () {
-        showHint();
-    }, 10000);
-
-    //button.addEventListener('click', function () {
-    //    getHint(correctWord);
-    //}, false);
-
-    button.addEventListener('click', getHint.bind(null, correctWord), false)
-
-    wordContainer.innerHTML = '';
-    // Add a specific number of boxes in the html file.
-    for (var i = 0; i < num; i++) {
-        wordContainer.innerHTML += '<div class="box"></div>';
+function Word(clickableWordElement, scrambledWordIndex, unsolvedWord, solvedWord, isSolved) {
+    this.clickableWordElement = clickableWordElement;
+    this.scrambledWordIndex = scrambledWordIndex;
+    this.unsolvedWord = unsolvedWord;
+    this.solvedWord = solvedWord;
+    this.isSolved = isSolved;
+    this.studentSolution = isSolved ? solvedWord : unsolvedWord;
+    this.hintsUsed = 0;
+    this.hintLastUsedTs = 0;
+    this.showHintButtonTimeout = null;
+    if(isSolved) {
+        clickableWordElement.className = 'word solvable solved';
+        clickableWordElement.innerText = solvedWord;
+    } else {
+        clickableWordElement.className = 'word solvable unsolved';
+        clickableWordElement.innerText = unsolvedWord;
     }
-
-
-    const empties = document.querySelectorAll('.box');
-
-    for (var i = 0; i < empties.length; i++) {
-        empties[i].innerHTML += '<div class = "letters" draggable="true"></div>';
-        empties[i].querySelector('.letters').innerHTML += word[i];
-    }
-
-
-    const letters = document.querySelectorAll('.letters');
-
-    for (const l of letters) {
-        l.addEventListener('dragenter', dragEnter);
-        l.addEventListener('dragover', dragOver);
-        l.addEventListener('dragleave', dragLeave);
-        l.addEventListener('drop', dragDrop);
-        l.addEventListener('dragstart', dragStart);
-        l.addEventListener('dragend', dragEnd);
-    }
+    clickableWordElement.onclick = (function(event) {
+        this.showWord();
+    }).bind(this);
 }
 
-var tochange = "";
-var changed = "";
-
-// function to check if the word is correct or not.
-function check() {
-    var temp = "";
-    const letters = document.querySelectorAll('.letters');
-    const hint_letters = document.querySelectorAll('.lettershint');
-
-    if (hint_letters) {
-        for(const k of hint_letters) {
-            temp += k.innerHTML;
+Word.prototype = {
+    makeSolved: function() {
+        this.isSolved = true;
+        this.studentSolution = this.solvedWord;
+        if(activeWord == this)
+            this.showLettersSolved(this.solvedWord.length);
+        this.clickableWordElement.className = 'word solvable solved';
+        this.clickableWordElement.innerText = this.studentSolution;
+        if(this.showHintButtonTimeout)
+            clearTimeout(this.showHintButtonTimeout);
+        document.getElementById('hint').style.visibility = 'none';
+    },
+    showLettersSolved: function(letterCount) {
+        const letters = document.querySelectorAll('.letters'), word = this.solvedWord;
+        for (var i = 0; i < letterCount; i++) {
+            let found = false;
+            for (const l of letters) {
+                if (l.textContent === word[i] && !found) {
+                    this.swapLetters(i, parseInt(l.dataset['letterIndex']));
+                    l.textContent = letters[i].textContent;
+    
+                    letters[i].textContent = word[i];
+                    letters[i].className += ' lettershint';
+                    found = true;
+    
+                    letters[i].setAttribute('draggable', false);
+                    letters[i].dataset['solved'] = 'true';
+                }
+            }
         }
-    }
+    },
+    beginHintTimer: function () {
+        const hintButtonElement = document.getElementById('hint');
+        hintButtonElement.style.visibility = 'hidden';
+        hintButtonElement.onclick = null;
+        if(this.hintsUsed >= Math.min(this.solvedWord.length, 3))
+            this.checkStudentSolution();
+        else {
+            const timeToHint = this.hintLastUsedTs - Date.now() + 10000, showHintButton = (function() {
+                hintButtonElement.style.visibility = 'visible';
+                hintButtonElement.onclick = (function() {
+                    this.hintsUsed++;
+                    this.showHint();
+                }).bind(this);
+            }).bind(this);
+            if(timeToHint > 0)
+                this.showHintButtonTimeout = setTimeout(showHintButton, timeToHint);
+            else showHintButton();
+        }
+    },
+    showWord: function() {
+        if(this.isSolved) // Already solved, do nothing.
+            return false;
+        
+        if(activeWord == this)
+            return true;
 
-    for(const l of letters) {
-        temp += l.innerHTML;
-    }
-
-    return temp;
-
-}
-
-// This is to get what the query gets so that we can make boxes accordingly.
-function getQuery() {
-    var query = window.location.search.substring(1);
-    console.log(query);
+        if(activeWord && activeWord.showHintButtonTimeout)
+            clearTimeout(activeWord.showHintButtonTimeout);
+        
+        activeWord = this;
+        
+        const num = this.unsolvedWord.length, word = this.studentSolution, wordContainer = document.getElementById('wordContainer');
     
-    return query;
-}
-
-// function that activates when mouse clicks.
-function dragStart() {
-    tochange = this.innerHTML;
-}
-
-// function that activates when mouse is let go.
-function dragEnd() {
-    if("" != changed) {
-        this.innerHTML = changed;
-    }
-    tochange = "";
-    changed = "";
-}
-
-// function that activates when it enters anothers box.
-function dragEnter(e) {
-    e.preventDefault();
-    this.parentNode.className += ' hovered';
-}
-
-// we don't need this one.
-function dragOver(e) {
-    e.preventDefault();
-}
-
-// function that activates when we leave a ceratin box.
-function dragLeave() {
-    this.parentNode.className = 'box';
-}
-
-// function that activates when we drop the drag so this 
-// happens before dragEnd happens but both from mouseclick up.
-function dragDrop() {
-    this.parentNode.className = 'box';
-    changed = this.innerHTML;
-    this.innerHTML = tochange;
-}
-
-function showHint() {
-    document.getElementById('hint').style.visibility = "visible";
-}
-
-/**
- * Get hint reshuffles the words with certain number of correct words.
- * @param {string} cw
- */
-function getHint(cw) {
-    const letters = document.querySelectorAll('.letters'), word = cw;
-    let num = word.length;
-
-    for (var i = 0; i < Math.ceil(num/3); i++) {
-        let found = false;
+        wordContainer.innerHTML = '';
+        // Add a specific number of boxes in the html file.
+        for (var i = 0; i < num; i++) {
+            wordContainer.innerHTML += '<div class="box"></div>';
+        }
+    
+        const empties = document.querySelectorAll('.box');
+    
+        for (var i = 0; i < empties.length; i++) 
+            empties[i].innerHTML += '<div class="letters" draggable="true" data-solved="false" data-letter-index="' + i + '">' + word[i] + '</div>';
+    
+    
+        const letters = document.querySelectorAll('.letters');
+    
+        const swapLetters = this.swapLetters.bind(this), checkStudentSolution = this.checkStudentSolution.bind(this);
         for (const l of letters) {
-            if (l.textContent === word[i] && !found) {
-                l.textContent = letters[i].textContent;
+            l.ondragover = function(event) {
+                if(dragStartElement == this || this.dataset['solved'] == 'true') return;
+                event.preventDefault();
+                this.parentNode.className = 'box hovered';
+            };
+            l.ondragleave = function() {
+                this.parentNode.className = 'box';
+            };
+            l.ondragstart = function() {
+                dragStartElement = this;
+            };
+            l.ondrop = function(event) {
+                const newIndex = parseInt(this.dataset['letterIndex']), oldIndex = parseInt(dragStartElement.dataset['letterIndex']), studentSolution = swapLetters(oldIndex, newIndex);
+                this.innerText = studentSolution[newIndex];
+                dragStartElement.innerText = studentSolution[oldIndex];
+                this.parentNode.className = 'box';
+                checkStudentSolution();
+            };
+        }    
 
-                letters[i].textContent = word[i];
-                letters[i].className = 'lettershint';
-                found = true;
+        if(this.hintLastUsedTs == 0)
+            this.hintLastUsedTs = Date.now();
+        if(this.hintsUsed > 0)
+            this.showHint();
+        else this.beginHintTimer();
 
-                letters[i].setAttribute('draggable', false);
-                letters[i].removeEventListener('dragstart', dragStart);
-                letters[i].removeEventListener('dragleave', dragLeave);
-                letters[i].removeEventListener('dragenter', dragEnter);
-                letters[i].removeEventListener('dragover', dragOver);
-                letters[i].removeEventListener('drop', dragDrop);
-                letters[i].removeEventListener('dragend', dragEnd);
-            }
-        }
+        return true;
+    },
+    showHint: function() {
+        const num = this.solvedWord.length;
+        this.showLettersSolved(Math.min(this.hintsUsed * 2, num));    
+        this.hintLastUsedTs = Date.now();
+        this.beginHintTimer();
+        this.checkStudentSolution();
+    },
+    swapLetters: function(oldIndex, newIndex) {
+        var str = this.studentSolution;
+        str = str.substring(0, oldIndex) + this.studentSolution[newIndex] + str.substring(oldIndex + 1);
+        str = str.substring(0, newIndex) + this.studentSolution[oldIndex] + str.substring(newIndex + 1);
+        this.clickableWordElement.innerText = this.studentSolution = str;
+        return str;
+    },
+    checkStudentSolution: function() {
+        document.getElementById('studentSolutionWordIndex').value = this.scrambledWordIndex;
+        document.getElementById('studentSolutionWordSolution').value = this.studentSolution;    
+        requestJSON(
+            studentApiUrl,
+            (function (responseObject) {
+                if(responseObject['result'] == null){
+                    if(responseObject['problems'] == 'GAME_OVER') {
+                        alert("The game has ended");
+                        //TODO: Direct to the webpage that shows the students scores.
+                    }
+                    console.log(responseObject);
+                } else {
+                    this.makeSolved();
+                    refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
+                    responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
+
+                    document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+
+                    if(responseObject['result']['gameEnded'] == true) {
+                        console.log(responseObject);
+                        alert("You have completed the game");
+                        //TODO: Direct to a webpage that shows the student scores and possibly all the solved words.
+                    }
+                }
+            }).bind(this), function () {
+                log('Oh no, the student data failed to load!', LOG_FAILURE);
+            }, false,
+            document.getElementById('studentSolution')
+        );    
     }
-
-    let button = document.getElementById('hint');
-    button.style.visibility = 'hidden';
-}
-
-/**
- * Function to validate the student word after submit has been pressed
- */
-function validateStudentWord() {
-    const f = document.getElementById('studentSolution');
-    let word_solution = check();
-
-    document.getElementById('studentSolutionId').value = getCookie("sid");
-    document.getElementById('studentSolutionWordIndex').value = word_index;
-    document.getElementById('studentSolutionWordSolution').value = word_solution;
-
-
-    //const f_real = f;
-    requestJSON(
-        studentApiUrl,
-        function (responseObject) {
-            if(responseObject['result'] == null){
-                console.log(responseObject);
-            }else{
-                document.getElementById("storyContainer").innerHTML = "";
-                document.getElementById("wordContainer").innerHTML = "";
-
-                refreshStory(responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
-                responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
-
-            }
-        }, function () {
-
-            log('Oh no, the student data failed to load!', LOG_FAILURE);
-        }, false,
-        f
-    );
-}
+};
