@@ -12,24 +12,26 @@
             <h1>Add Student</h1>
             <h4> Input student information</h4>
             <form id='addStudent' method="POST">
-                <input type="hidden" name="teacher-code">
+                
                 <label>First name</label>
                 <div class = 'text_field'>
-                    <input class='form-control' type="text" name="first-name" placeholder="First Name"/>
+                    <input class='form-control' type="text" name="firstName" placeholder="First Name"/>
                 </div>
 
                 <label>Last Name</label>
                 <div class = 'text_field'>
-                    <input class='form-control' type="text" name="last-name" placeholder="Last Name"/>
+                    <input class='form-control' type="text" name="lastName" placeholder="Last Name"/>
                 </div>
 
                 <label>Student ID</label>
                 <div class = 'text_field'>
-                    <input class='form-control' type="text" name="student-id" placeholder="Student ID"/>
+                    <input class='form-control' type="text" name="studentId" placeholder="Student ID"/>
                 </div>
+                
+                <input class='button button1' type="submit" value="Submit"/>
             </form>
-                <input class='button button1' type="submit" value="Submit" onclick="addNewStudent()"/>
-                <input class='button button1' type="submit" value="Go back"  onclick="teacherSide()"/>
+
+                <input class='button button2' type="submit" value="Go back"  onclick="teacherSide()"/>
                 
             
         </div>

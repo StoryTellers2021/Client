@@ -1,3 +1,25 @@
+fixSpelling();
+
+function displayLogin(){
+    document.getElementById("hidden").style.display = "contents";
+    let element= document.getElementById("intro");
+    element.remove();
+}
+
+function fixSpelling(){
+    let title = document.getElementsByClassName("one")[0];
+    let change = document.getElementById("change");
+
+    title.addEventListener("animationend", function() {
+        document.getElementById("1").innerHTML = "W";
+        document.getElementById("1").style.color = "#4CAF50";
+        setTimeout(() => { document.getElementById("2").innerHTML = "I";
+            document.getElementById("2").style.color = "#4CAF50"; }, 250);
+        setTimeout(() => { document.getElementById("3").innerHTML = "Z";
+            document.getElementById("3").style.color = "#4CAF50"; }, 500);
+    });
+}
+
 const studentApiUrl = 'http://localhost:8080/api/v1/student';
 const teacherApiUrl = 'http://localhost:8080/api/v1/teacher';
 
@@ -37,6 +59,9 @@ function requestStudentAPI() {
 
                     const intro = document.getElementById("login");
                     intro.parentNode.removeChild(intro);
+                    const title = document.getElementById("title");
+                    title.parentNode.removeChild(title);
+                    
                     //window.location.replace('./../story.html');
 
                     document.getElementById("storyContainer").innerHTML = "";
@@ -566,7 +591,7 @@ function showstudentProgress() {
                     lastName: responseObject['result'][i]['lastName'],
                     studentId: responseObject['result'][i]['studentId'],
                     score: responseObject['result'][i]['score'],
-                    currentStory: responseObject['result'][i]['story']['solvedStory']
+                    currentStory: responseObject['result'][i]['storyIndex']
                 });
             }
 
