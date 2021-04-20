@@ -3,11 +3,51 @@
     <head>
         <title>The Storytellers</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" src="story.js"></script>
     </head>
-    <body onload="setTimeout(function() { showHint() }, 10000)">
-        <div id="storyContainer"></div>
-        <div id="wordContainer"></div>
-        <button id="hint" style="visibility: hidden;">hint</button>
+    <body>
+        <footer>
+            StoryTellers &copy; 2021
+        </footer>
+    <div id="title" class="title animate one">
+        <span>S</span><span>p</span><span>e</span><span>l</span><span>l</span><span>l</span><span>i</span><span>n</span><span>g</span><span>&nbsp</span>
+        <span id="1" class="two">z</span><span id="2" class="two">w</span><span id="3" class="two">i</span>
+    </div>
+    <p id="change"></p>
+    <button id="intro" onclick="displayLogin()" class="login vibe button">Login</button>
+    <div id="hidden" class="form">
+        <div class="intro" id="login">
+            <form id='myformStudent' method="POST">
+                <h1>Welcome!</h1>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="student-id" placeholder="Enter Your Student ID"/>
+                </div>
+                <input class='button0 button1' type="submit" onclick="removeTitle()" value="Go"/><button class="button0 button2" id="teacher" onclick="showTeacher()">Teacher Login</button>
+            </form>
+
+            <form id='myformTeacher' method="POST"  style="display: none">
+                <h1>Welcome!</h1>
+                <div class = 'text_field'>
+                    <input class='form-control' type="text" name="teacher-code" placeholder="Enter Your Teacher ID"/>
+                </div>
+                <input class='button0 button1' type="submit" value="Go"/><button class="button0 button2" id="Student" onclick="showStudent()">Student Login</button>
+            </form>
+        </div>
+    </div>
+
+
+        <div id="storyContainer" class="gameDisplay"></div>
+        <div id="wordContainer" class="container"></div>
+        <duv id="score"></duv>
+
+        <button id="hint" class="rightCorner button" style="visibility: hidden">hint</button>
+        <button id="word_go" class="goButton button" style="visibility: hidden" onclick="validateStudentWord()">Check</button>
+        <form id="studentSolution" method="post">
+            <input type="hidden" id="studentSolutionId" name="student-id"/>
+            <input type="hidden" id="studentSolutionWordIndex" name="word-index"/>
+            <input type="hidden" id="studentSolutionWordSolution" name="word-solution"/>
+        </form>
+
+        <script type="text/javascript" src="story.js"></script>
     </body>
+
 </html>
