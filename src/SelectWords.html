@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="OptionsExistingStory()">
+    <h1>What do you want to do with the story?</h1>
+    <div id="story"></div>
+    <button id="nextStory">Next Story</button>
+    <button id="previousStory">Previous Story</button>
+    </br>
+    <button id="editStory" onclick="window.location.replace('./../editStory.html')">Edit story</button>
+    <button id="editScramble" onclick="window.location.replace('./../scrambleWords.html')")>Scramble Words</button>
+    </br>
+    <button onclick="window.location.replace('./../teacherChoose.html')">Go back</button>
+    <form id="get_stories">
+        <input type="hidden" name="teacher-code">
+    </form>
+
+    <script type="text/javascript" src="story.js"></script>
+</body>
+</html>
