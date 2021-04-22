@@ -141,7 +141,7 @@ Word.prototype = {
         var str = this.studentSolution;
         str = str.substring(0, oldIndex) + this.studentSolution[newIndex] + str.substring(oldIndex + 1);
         str = str.substring(0, newIndex) + this.studentSolution[oldIndex] + str.substring(newIndex + 1);
-        this.clickableWordElement.innerText = this.studentSolution = str;
+        this.clickableWordElement.innerText = this.studentSolution = str + " ";
         return str;
     },
     checkStudentSolution: function() {
@@ -153,11 +153,6 @@ Word.prototype = {
                 if(responseObject['result'] == null){
                     if(responseObject['problems'] == 'GAME_OVER') {
                         alert("The game has ended");
-                        document.getElementById('storyContainer').innerHTML = "Game has ended! Please wait for the teacher's instruction."
-                        document.getElementById('score').style.display = 'none';
-                        document.getElementById('wordContainer').innerText = "";
-                        document.getElementById('hint').style.visibility = 'none';
-                        document.getElementById('ref').style.display = 'block';
                         //TODO: Direct to the webpage that shows the students scores.
                     }
                     console.log(responseObject);
