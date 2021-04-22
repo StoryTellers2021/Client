@@ -652,12 +652,23 @@ function showstudentProgress() {
                         span.style.width = g_prog + "%";
                         div.appendChild(span);
 
+                        const div2 = document.createElement('div');
+                        const span2 = document.createElement('div');
+                        div2.className = "progress_div";
+                        span2.className = "progress_span";
+
+                        span2.style.width = parseInt(responseObject['result'][i]['solvedWords'].length) *
+                            100/ parseInt(responseObject['result'][i]['story']['solvableWordIndexes'].length) + "%";
+                        div2.appendChild(span2);
+                        console.log(span2);
+
                         data.push({
                             FirstName: responseObject['result'][i]['firstName'],
                             LastName: responseObject['result'][i]['lastName'],
                             StudentId: responseObject['result'][i]['studentId'],
                             Score: responseObject['result'][i]['score'],
                             CurrentStory: responseObject['result'][i]['storyIndex'],
+                            CurrentStoryProgress: div2,
                             TotalGameProgress: div
                         });
                     }
@@ -709,7 +720,7 @@ function MakeTable(table, data) {
         for (let key in e) {
             let cell = r.insertCell();
             let text = document.createTextNode(e[key]);
-            if (key == "TotalGameProgress") {
+            if (key == "TotalGameProgress" || key == "CurrentStoryProgress") {
                 cell.appendChild(e[key]);
             }
             else {
