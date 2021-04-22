@@ -21,7 +21,7 @@
                 <div class = 'text_field'>
                     <input class='form-control' type="text" name="student-id" placeholder="Enter Your Student ID"/>
                 </div>
-                <input class='button0 button1' type="submit" onclick="removeTitle()" value="Go"/><button class="button0 button2" id="teacher" onclick="showTeacher()">Teacher Login</button>
+                <input class='button0 button1' type="submit" onclick="removeTitle()" value="Go"/><button class="button0 button2" id="teacher" onclick="showTeacher(); return false;">Teacher Login</button>
             </form>
 
             <form id='myformTeacher' method="POST"  style="display: none">
@@ -29,7 +29,7 @@
                 <div class = 'text_field'>
                     <input class='form-control' type="text" name="teacher-code" placeholder="Enter Your Teacher ID"/>
                 </div>
-                <input class='button0 button1' type="submit" value="Go"/><button class="button0 button2" id="Student" onclick="showStudent()">Student Login</button>
+                <input class='button0 button1' type="submit" value="Go"/><button class="button0 button2" id="Student" onclick="showStudent(); return false;">Student Login</button>
             </form>
         </div>
     </div>
