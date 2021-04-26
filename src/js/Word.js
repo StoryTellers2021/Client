@@ -141,7 +141,7 @@ Word.prototype = {
         var str = this.studentSolution;
         str = str.substring(0, oldIndex) + this.studentSolution[newIndex] + str.substring(oldIndex + 1);
         str = str.substring(0, newIndex) + this.studentSolution[oldIndex] + str.substring(newIndex + 1);
-        this.clickableWordElement.innerText = this.studentSolution = str;
+        this.clickableWordElement.innerText = this.studentSolution = str + " ";
         return str;
     },
     checkStudentSolution: function() {

@@ -88,6 +88,7 @@ function requestStudentAPI() {
                     }
                     else {
                         document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+                        document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
 
                         refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
                             responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
@@ -188,7 +189,7 @@ function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordInd
         if (wordElement.className == 'word') {
             wordElement.innerText = solvedStoryWords[wordIndex];
         }
-
+        wordElement.innerText += " ";
         storyContainer.appendChild(wordElement);
     }
 }

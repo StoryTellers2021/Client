@@ -10,19 +10,19 @@
   </head>
   <body onload="addStory2()">
     
-      <h1> Add a story </h1>
-      <h4> Please type or paste a story to add to the database</h4>
+      <h1 > Add a story </h1>
+      <h4 > Please type or paste a story to add to the database</h4>
       
      
-      <textarea cols="40" rows="7" id="newStory"> </textarea>
+      <textarea placeholder="Your story here..." cols="40" rows="7" id="newStory"> </textarea>
 
       <h4 id="newMessage"> </h4>
-    <p id="selectedstory"></p>
+      <p id="selectedstory"></p>
       
-      <button id ="1">Add story</button> 
-      <button id = "two"> Submit to database </button>
-      <button onclick="window.location.href='teacherChoose.html'">Go back</button>
-
+      <button class ="button5" id ="1"  >Add story</button> 
+      <button class="button5" id = "two"> Submit to database </button>
+      <button class= "button5" onclick="window.location.href='teacherChoose.html'">Go back</button>
+     
       <form id="add_story_form" method="post">
           <input type="hidden" id="teacher_add_id" name="teacher-code">
           <input type="hidden" id="story_add" name="story">
