@@ -283,6 +283,7 @@ footer{
 
 
 .container{
+    user-select: none;
     border-width: 2px;
     border-color: black;
     position:absolute;
@@ -295,28 +296,44 @@ footer{
 
 
 .box {
+    user-select: none;
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: #141414;
+}
+.box2 {
 
     height: 70px;
     width: 70px;
     display: inline-block;
     border-radius: 12px;
     background-color: #141414;
+    border-color: #009E73;
+    user-select: none;
+}
+.box:hover {
 
-
-
-
-
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: #484848;
 }
 
 .unsolved{
+    user-select: none;
     color:yellow;
 }
 .solved{
+    user-select: none;
     color:#009E73;
 }
 
 
 .letters {
+    user-select: none;
     font-family: 'Lato', sans-serif;
     position: absolute;
     height: 60px;
@@ -332,6 +349,7 @@ footer{
     font-weight: bold;
 }
 .lettershint {
+    user-select: none;
     font-family: 'Lato', sans-serif;
     position: absolute;
     height: 60px;
