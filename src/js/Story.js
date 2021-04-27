@@ -65,7 +65,7 @@ function requestStudentAPI() {
                     intro.style.display = 'none';
                     const title = document.getElementById("title");
                     title.style.display = 'none';
-                    
+
                     document.getElementById("storyContainer").innerHTML = "";
                     document.getElementById("wordContainer").innerHTML = "";
 
@@ -78,7 +78,6 @@ function requestStudentAPI() {
                         document.getElementById('ref').style.display = 'block';
                     }
                     else {
-                        document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName']
                         document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
                         document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
 
@@ -90,6 +89,7 @@ function requestStudentAPI() {
                         console.log(responseObject['result']);
 
                         const maindiv = document.createElement('div');
+                        maindiv.className = "mainProgress";
                         const text = document.createTextNode("current story progress");
                         maindiv.appendChild(text);
 
