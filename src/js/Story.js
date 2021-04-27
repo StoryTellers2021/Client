@@ -78,6 +78,7 @@ function requestStudentAPI() {
                         document.getElementById('ref').style.display = 'block';
                     }
                     else {
+                        document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName']
                         document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
                         document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
 
