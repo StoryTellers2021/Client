@@ -57,24 +57,15 @@ function requestStudentAPI() {
                 if (responseObject['result'] === null) {
                     alert('No student with the id ' + document.getElementsByName('student-id')[0].value);
                 } else {
+                    alert("Welcome " + responseObject['result']['firstName'] + " " + responseObject['result']['lastName']);
                     const schoolStudentId = document.getElementsByName('student-id')[0].value;
                     setCookie("sid", schoolStudentId, 1);
-                    //setCookie("storyindex", responseObject['result']['storyIndex'],1);
-                    //setCookie('unsolvedstory', responseObject['result']['story']['unsolvedStory'],1);
-                    //setCookie("solvedstory", responseObject['result']['story']['solvedStory'],1);
-                    //setCookie("solvablewordindex", responseObject['result']['story']['solvableWordIndexes'],1);
-                    //setCookie("solvedindex", responseObject['result']['solvedWords'],1);
-                    //setCookie("gamestarted", responseObject['result']['gameStarted'], 1);
-                    //setCookie("gameEnded", responseObject['result']['gameEnded'],1);
-                    //setCookie("score", responseObject['result']['score'],1);
 
                     const intro = document.getElementById("login");
                     intro.style.display = 'none';
                     const title = document.getElementById("title");
                     title.style.display = 'none';
-
-                    //window.location.replace('./../story.html');
-
+                    
                     document.getElementById("storyContainer").innerHTML = "";
                     document.getElementById("wordContainer").innerHTML = "";
 
@@ -88,9 +79,32 @@ function requestStudentAPI() {
                     }
                     else {
                         document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+                        document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
+
 
                         refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
                             responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
+
+
+                        console.log(responseObject['result']);
+
+                        const maindiv = document.createElement('div');
+                        const text = document.createTextNode("current story progress");
+                        maindiv.appendChild(text);
+
+                        const div2 = document.createElement('div');
+                        const span2 = document.createElement('div');
+                        div2.className = "progress_div";
+                        span2.className = "progress_span";
+
+                        span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                            100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+
+                        div2.appendChild(span2);
+                        maindiv.appendChild(div2);
+
+                        document.body.appendChild(maindiv);
+
 
                         document.getElementById('studentSolutionId').value = schoolStudentId;
 
