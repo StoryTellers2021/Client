@@ -45,6 +45,8 @@ Word.prototype = {
     
                     letters[i].textContent = word[i];
                     letters[i].className += ' lettershint';
+                    let par = letters[i].parentNode;
+                    par.className ="box2";
                     found = true;
     
                     letters[i].setAttribute('draggable', false);

@@ -15,7 +15,7 @@
 /*}*/
 
 body {
-    /*background: url(game-back.PNG) fixed ;*/
+    /*background: url(home-screen.jpg) fixed;*/
     /*background-size: 100% 100%;*/
     /*background: gray;*/
     background-image: linear-gradient(45deg,#a1c4fd , #c2e9fb);
@@ -46,6 +46,7 @@ body {
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
+    white-space: break-spaces;
 
 }
 
@@ -258,7 +259,8 @@ footer{
 }
 
 .gameDisplay{
-    width:70%;
+    background-image: url(paper.png);
+    width:50%;
     height:30%;
     user-select: none;
     font-family: 'Lato', sans-serif;
@@ -271,15 +273,17 @@ footer{
     border-radius: 12px;
     font-weight: 900;
     text-transform: uppercase;
-    text-align: center;
+    text-align:left;
     font-size: 2.5em;
     overflow-wrap: normal;
     text-after-overflow: "aaaa";
+
 
 }
 
 
 .container{
+    user-select: none;
     border-width: 2px;
     border-color: black;
     position:absolute;
@@ -292,28 +296,44 @@ footer{
 
 
 .box {
+    user-select: none;
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: #141414;
+}
+.box2 {
 
     height: 70px;
     width: 70px;
     display: inline-block;
     border-radius: 12px;
     background-color: #141414;
+    border-color: #009E73;
+    user-select: none;
+}
+.box:hover {
 
-
-
-
-
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: #484848;
 }
 
 .unsolved{
+    user-select: none;
     color:yellow;
 }
 .solved{
+    user-select: none;
     color:#009E73;
 }
 
 
 .letters {
+    user-select: none;
     font-family: 'Lato', sans-serif;
     position: absolute;
     height: 60px;
@@ -329,6 +349,7 @@ footer{
     font-weight: bold;
 }
 .lettershint {
+    user-select: none;
     font-family: 'Lato', sans-serif;
     position: absolute;
     height: 60px;
@@ -369,12 +390,6 @@ footer{
 .intro h4 {
     font-family: 'Lato', sans-serif;
     text-align: center;
-    padding: 0 0 20px 0;
-}
-
-.addStory h4 {
-    font-family: 'Lato', sans-serif;
-    text-align: relative;
     padding: 0 0 20px 0;
 }
 
@@ -503,26 +518,6 @@ form .text_field {
     color: white;
 }
 
-.button5{
-    width: 120px;
-    height: 40px;
-    float: left;
-    font-family: 'Lato', sans-serif;
-    background-color: #141414;
-    color: white;
-    border-radius: 40px;
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 1em;
-    user-select: none;
-}
-
-.button5:hover {
-    background-color: #4CAF50;
-    color: white;
-}
-
-
 .button3:hover {
     background-color: #4CAF50;
     color: white;
@@ -650,6 +645,22 @@ form .text_field {
 }
 
 
+.score{
+    user-select: none;
+    color: #141414;
+    font-family: 'Lato', sans-serif;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    width: 100%;
+    font-weight: 900;
+    font-size: 4em;
+    text-transform: uppercase;
+    text-align: center;
+
+}
 /*
 input[type = "submit"] {
     width: 100%;
