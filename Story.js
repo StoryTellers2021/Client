@@ -188,8 +188,13 @@ function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordInd
         if (wordElement.className == 'word') {
             wordElement.innerText = solvedStoryWords[wordIndex];
         }
-        wordElement.innerText += " ";
+
         storyContainer.appendChild(wordElement);
+
+        const spacer = document.createElement('span');
+        spacer.className = 'space';
+        spacer.innerText = " ";
+        storyContainer.appendChild(spacer);
     }
 }
 
