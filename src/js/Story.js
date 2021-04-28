@@ -1,14 +1,24 @@
 const intro = document.getElementById('intro');
+
+/**
+ * For intro ZIW -> WIZ
+ */
 if(intro) {
     fixSpelling();
 }
 
+/**
+ * displays the login box
+ */
 function displayLogin(){
     document.getElementById("hidden").style.display = "contents";
     let element= document.getElementById("intro");
     element.remove();
 }
 
+/**
+ * fix spelling method.
+ */
 function fixSpelling(){
     let title = document.getElementsByClassName("one")[0];
     let change = document.getElementById("change");
@@ -46,6 +56,9 @@ if (formS) {
     });
 }
 
+/**
+ * Function that requests the student api.
+ */
 function requestStudentAPI() {
     if(document.getElementsByName('student-id')[0].value == null) {
         alert("Please input a student id to login");
@@ -57,23 +70,14 @@ function requestStudentAPI() {
                 if (responseObject['result'] === null) {
                     alert('No student with the id ' + document.getElementsByName('student-id')[0].value);
                 } else {
+                    alert("Welcome " + responseObject['result']['firstName'] + " " + responseObject['result']['lastName']);
                     const schoolStudentId = document.getElementsByName('student-id')[0].value;
                     setCookie("sid", schoolStudentId, 1);
-                    //setCookie("storyindex", responseObject['result']['storyIndex'],1);
-                    //setCookie('unsolvedstory', responseObject['result']['story']['unsolvedStory'],1);
-                    //setCookie("solvedstory", responseObject['result']['story']['solvedStory'],1);
-                    //setCookie("solvablewordindex", responseObject['result']['story']['solvableWordIndexes'],1);
-                    //setCookie("solvedindex", responseObject['result']['solvedWords'],1);
-                    //setCookie("gamestarted", responseObject['result']['gameStarted'], 1);
-                    //setCookie("gameEnded", responseObject['result']['gameEnded'],1);
-                    //setCookie("score", responseObject['result']['score'],1);
 
                     const intro = document.getElementById("login");
                     intro.style.display = 'none';
                     const title = document.getElementById("title");
                     title.style.display = 'none';
-
-                    //window.location.replace('./../story.html');
 
                     document.getElementById("storyContainer").innerHTML = "";
                     document.getElementById("wordContainer").innerHTML = "";
@@ -88,9 +92,21 @@ function requestStudentAPI() {
                     }
                     else {
                         document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+                        document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
+                        document.getElementById('logout').style.display = 'block';
+
 
                         refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
                             responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
+
+
+                        console.log(responseObject['result']);
+
+                        const main_div = document.getElementById('main_div');
+                        main_div.style.display = 'block';
+                        const span2 = document.getElementById('pspan');
+                        span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                            100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
 
                         document.getElementById('studentSolutionId').value = schoolStudentId;
 
@@ -110,29 +126,9 @@ function requestStudentAPI() {
     }
 }
 
-/**function loadStudent() {
-    document.getElementById("storyContainer").innerHTML = "";
-    document.getElementById("wordContainer").innerHTML = "";
-
-    console.log(getCookie('gamestarted'));
-    console.log(getCookie('gameEnded'));
-    if (getCookie('gamestarted') == 'false') {
-        document.getElementById("storyContainer").innerHTML = "Please wait fot the teacher to start the game!";
-    }
-    else if (getCookie('gameEnded') == 'true') {
-        document.getElementById("storyContainer").innerHTML = "The game has ended. Please consult the teacher!";
-     }
-    else {
-
-        document.getElementById("score").innerText = "score: " + getCookie('score');
-
-         refreshStory(getCookie('storyindex'), getCookie('unsolvedstory'), getCookie('solvedstory'),
-            getCookie('solvablewordindex'), getCookie('solvedindex'));
-
-        document.getElementById('studentSolutionId').value = schoolStudentId;
-    }
-}*/
-
+/**
+ * Function that requests the teacher api.
+ */
 function requestTeacherAPI() {
     if(document.getElementsByName('teacher-code')[0].value == null) {
         alert("Please input a teacher id to login");
@@ -145,8 +141,11 @@ function requestTeacherAPI() {
                     alert('No teacher with the id ' + document.getElementsByName('teacher-code')[0].value);
                 } else {
                     setCookie("tid",document.getElementsByName('teacher-code')[0].value, 1);
+                    setCookie("tfname", responseObject['result']['firstName'],1);
+                    setCookie('tlname', responseObject['result']['lastName'],1);
                     //document.cookie = document.getElementsByName('teacher-code')[0].value;
 
+                    alert("Welcome " + responseObject['result']['firstName'] + " " + responseObject['result']['lastName']);
                     location.replace("./../teacherChoose.html");
                 }
             }, function () {
@@ -158,6 +157,10 @@ function requestTeacherAPI() {
     }
 }
 
+function showName() {
+    document.getElementById('name').innerText = getCookie('tfname') + " " + getCookie('tlname');
+}
+
 /**
  * Refreshes the page with the new story.
  * @param {string} unsolvedStory 
@@ -165,8 +168,10 @@ function requestTeacherAPI() {
  * @param {number[]} solvableWordIndexes 
  */
 function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordIndexes, solvedIndex) {
-    if(newStoryIndex == storyIndex)
+    if(newStoryIndex == storyIndex) {
+        console.log('this is going here');
         return;
+    }
     storyIndex = newStoryIndex;
     document.getElementById("storyContainer").innerHTML = "";
     document.getElementById("wordContainer").innerHTML = "";
@@ -190,9 +195,17 @@ function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordInd
         }
 
         storyContainer.appendChild(wordElement);
+
+        const spacer = document.createElement('span');
+        spacer.className = 'space';
+        spacer.innerText = " ";
+        storyContainer.appendChild(spacer);
     }
 }
 
+/**
+ * function to show teacher form in the client side.
+ */
 function showTeacher() {
     const teacher = document.getElementById('myformTeacher');
     const student = document.getElementById('myformStudent');
@@ -201,6 +214,9 @@ function showTeacher() {
     student.style.display = 'none';
 }
 
+/**
+ * function to show student form in the client side.
+ */
 function showStudent() {
     const teacher = document.getElementById('myformTeacher');
     const student = document.getElementById('myformStudent');
@@ -209,34 +225,51 @@ function showStudent() {
     student.style.display = 'block';
 }
 
-//TEacher Side HTML references
-//All js code from .js
-// Ask Joachim
-//This is a mess
+/**
+ * replaces the url to teacherSide
+ */
 function teacherSide(){
     location.replace('./../teacherChoose.html');
 }
 
+/**
+ * replaces the url to addStory page.
+ */
 function addStory(){
     location.replace('./../addStory.html');
 }
 
+/**
+ * replaces the url to selecting the words page.
+ */
 function neemSelectS(){
     location.replace('./../SelectWords.html');
 }
 
+/**
+ * replaces the url to login
+ */
 function login(){
     location.replace('./../index.html');
 }
 
+/**
+ * replaces the url to addStudent page.
+ */
 function addStudent() {
     location.replace('./../addStudent.html');
 }
 
+/**
+ * replaces the url to studentProgress page.
+ */
 function progressClick() {
     location.replace('./../studentProgress.html');
 }
 
+/**
+ * Starts the game.
+ */
 function startGame() {
     const tc = document.getElementById('tc');
     tc[0].value = getCookie('tid');
@@ -247,6 +280,25 @@ function startGame() {
         },
         function () {
             alert("The game could not be started!")
+        },
+        false,
+        tc
+    )
+}
+
+/**
+ * Ends the game.
+ */
+function endGame() {
+    const tc = document.getElementById('tc');
+    tc[0].value = getCookie('tid');
+    requestJSON(
+        "http://localhost:8080/api/v1/teacher/game/end",
+        function(responseObject) {
+            alert("Game has been ended")
+        },
+        function () {
+            alert("The game could not be ended!")
         },
         false,
         tc
@@ -481,8 +533,9 @@ function EditExistingStory() {
     )
 }
 
-//addStory.js
-//
+/**
+ * function to add story
+ */
 function addStory2(){
     let submit1 = document.getElementById("1");
     let finish1 = document.getElementById("two");
@@ -578,6 +631,31 @@ function addStory2(){
 }
 
 /**
+ * Resets student progress
+ */
+function reset(){
+    if (confirm('Are yo sure you want to reset the game? \nAll student progress will be lost')) {
+        const tc = document.getElementById('tc');
+    tc[0].value = getCookie('tid');
+    requestJSON(
+        "http://localhost:8080/api/v1/teacher/game/reset",
+        function(responseObject) {
+            alert("Game has been reset");
+        },
+        function () {
+            alert("The game could not be reset!")
+        },
+        false,
+        tc
+    )
+
+      } else {
+        // Do nothing!
+        console.log('Thing was not saved to the database.');
+      }
+}
+
+/**
  * function to clear the cookie once the teacher logs out.
  */
 function teacherlogout() {
@@ -611,20 +689,33 @@ function showstudentProgress() {
                         span.style.width = g_prog + "%";
                         div.appendChild(span);
 
+                        const div2 = document.createElement('div');
+                        const span2 = document.createElement('div');
+                        div2.className = "progress_div";
+                        span2.className = "progress_span";
+
+                        span2.style.width = parseInt(responseObject['result'][i]['solvedWords'].length) *
+                            100/ parseInt(responseObject['result'][i]['story']['solvableWordIndexes'].length) + "%";
+                        div2.appendChild(span2);
+                        console.log(span2);
+
                         data.push({
                             FirstName: responseObject['result'][i]['firstName'],
                             LastName: responseObject['result'][i]['lastName'],
                             StudentId: responseObject['result'][i]['studentId'],
                             Score: responseObject['result'][i]['score'],
                             CurrentStory: responseObject['result'][i]['storyIndex'],
+                            CurrentStoryProgress: div2,
                             TotalGameProgress: div
                         });
                     }
 
                     let table = document.querySelector("table");
+                    table.setAttribute('id', 'myTable');
                     let d = Object.keys(data[0]);
                     MakeTable(table, data);
                     MakeTableHead(table, d);
+                    sortTable();
                 },
                 function () {
 
@@ -668,7 +759,7 @@ function MakeTable(table, data) {
         for (let key in e) {
             let cell = r.insertCell();
             let text = document.createTextNode(e[key]);
-            if (key == "TotalGameProgress") {
+            if (key == "TotalGameProgress" || key == "CurrentStoryProgress") {
                 cell.appendChild(e[key]);
             }
             else {
@@ -761,14 +852,18 @@ function clearCookie() {
     }
 }
 
+/**
+ * This is for transitioning between end game and start game.
+ */
 function refresh() {
     const f = document.getElementById('refreshing');
     f[0].value = getCookie("sid");
     requestJSON(
         "http://localhost:8080/api/v1/student",
         function (responseObject) {
-            document.getElementById("storyContainer").innerHTML = "";
-            document.getElementById("wordContainer").innerHTML = "";
+            document.getElementById('attention').style.display = 'none';
+            document.getElementById('storyContainer').style.display = 'block';
+            document.getElementById('wordContainer').style.display = 'block';
 
             if (responseObject['result']['gameStarted'] == false) {
                 document.getElementById("storyContainer").innerHTML = "Please wait fot the teacher to start the game!";
@@ -778,12 +873,22 @@ function refresh() {
             }
             else {
                 document.getElementById("ref").style.display = 'none';
+                document.getElementById('logout').style.display = 'block';
+
                 document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+                document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
 
                 refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
                     responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
 
+
                 document.getElementById('studentSolutionId').value = getCookie('sid');
+
+                const main_div = document.getElementById('main_div');
+                main_div.style.display = 'block';
+                const span2 = document.getElementById('pspan');
+                span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                    100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
 
                 if (responseObject['result']['solvedWords'].length == responseObject['result']['story']['solvableWordIndexes'].length) {
                     alert("Congratulations!! You have completed all the stories in the game");
@@ -797,4 +902,36 @@ function refresh() {
         false,
         f
     )
+}
+
+/**
+ * Function to sort table with first name
+ */
+function sortTable() {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("myTable");
+    switching = true;
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[0];
+            y = rows[i + 1].getElementsByTagName("TD")[0];
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch = true;
+                break;
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
+}
+
+
+function slogout() {
+    clearCookie();
+    location.replace('./../index.html');
 }

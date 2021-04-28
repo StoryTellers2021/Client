@@ -15,7 +15,7 @@
 /*}*/
 
 body {
-    /*background: url(game-back.PNG) fixed ;*/
+    /*background: url(home-screen.jpg) fixed;*/
     /*background-size: 100% 100%;*/
     /*background: gray;*/
     background-image: linear-gradient(45deg,#a1c4fd , #c2e9fb);
@@ -46,6 +46,7 @@ body {
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
+    white-space: break-spaces;
 
 }
 
@@ -258,7 +259,7 @@ footer{
 }
 
 .gameDisplay{
-    width:70%;
+    width:50%;
     height:30%;
     user-select: none;
     font-family: 'Lato', sans-serif;
@@ -271,15 +272,17 @@ footer{
     border-radius: 12px;
     font-weight: 900;
     text-transform: uppercase;
-    text-align: center;
+    text-align:left;
     font-size: 2.5em;
     overflow-wrap: normal;
     text-after-overflow: "aaaa";
+
 
 }
 
 
 .container{
+    user-select: none;
     border-width: 2px;
     border-color: black;
     position:absolute;
@@ -292,28 +295,51 @@ footer{
 
 
 .box {
+    user-select: none;
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: #141414;
+}
+.box2 {
 
     height: 70px;
     width: 70px;
     display: inline-block;
     border-radius: 12px;
     background-color: #141414;
+    border-color: #009E73;
+    user-select: none;
+}
+.box:hover {
 
+    height: 80px;
+    width: 70px;
+    display: inline-block;
+    border-radius: 12px;
+    background-color: #484848;
+}
 
-
-
-
+.box.hovered {
+    height: 80px;
+    width: 70px;
+    display: inline-block;
+    background-color: #484848;
 }
 
 .unsolved{
+    user-select: none;
     color:yellow;
 }
 .solved{
+    user-select: none;
     color:#009E73;
 }
 
 
 .letters {
+    user-select: none;
     font-family: 'Lato', sans-serif;
     position: absolute;
     height: 60px;
@@ -329,6 +355,7 @@ footer{
     font-weight: bold;
 }
 .lettershint {
+    user-select: none;
     font-family: 'Lato', sans-serif;
     position: absolute;
     height: 60px;
@@ -502,6 +529,36 @@ form .text_field {
     color: white;
 }
 
+.button5 {
+    margin-left: 45%;
+    width: 140px;
+    height: 80px;
+    font-family: 'Lato', sans-serif;
+    background-color: #141414;
+    color: white;
+    border-radius: 40px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1em;
+    user-select: none;
+}
+
+.button6 {
+    position: absolute;
+    bottom: 5%;
+    width: 150px;
+    height: 100px;
+    font-family: 'Lato', sans-serif;
+    background-color: transparent;
+    color: #f6a524;
+    border-radius: 0;
+    border-color: transparent;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 22px;
+    user-select: none;
+}
+
 .clickable {
     display: inline-block;
     padding-left: 4px;
@@ -577,8 +634,8 @@ form .text_field {
 
 .content-table {
     border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
+    margin: 25px auto;
+    font-size: 1.1em;
     min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
@@ -617,10 +674,63 @@ form .text_field {
     padding: 3px;
 }
 
+.progress_div2 {
+    height: 20px;
+    width: 90%;
+    border: 1px solid black;
+    position: relative;
+    padding: 3px;
+}
 .progress_span {
     height: 20px;
     background-color: #32cd32;
     overflow: hidden;
+}
+
+
+.score {
+    user-select: none;
+    color: #141414;
+    font-family: 'Lato', sans-serif;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    width: 100%;
+    font-weight: 900;
+    font-size: 4em;
+    text-transform: uppercase;
+    text-align: center;
+
+}
+
+.name {
+    position: fixed;
+    top: 0;
+    right: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+
+.mainProgress {
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+.mainProgress > textnode {
+    margin-left: 40%;
+    font-size: 24px;
+    font-weight: 900;
+    color: black;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 10;
 }
 /*
 input[type = "submit"] {
