@@ -192,6 +192,7 @@ footer{
     top: 95%;
     font-size: medium;
     font-weight: 900;
+<<<<<<< HEAD
 }
 
 .login {
@@ -294,6 +295,109 @@ footer{
     text-align: center;
 }
 
+=======
+}
+
+.login {
+    /* Center vertically */
+    user-select: none;
+    color: #ffffff;
+    background-color: #141414;
+    font-family: 'Lato', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 46%;
+    transform: translate(-50%);
+    margin: auto;
+    border-radius: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 3em;
+
+}
+
+.rightCorner{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    font-family: 'Lato', sans-serif;
+    position: absolute;
+    color: #f6a524;
+    top: 80%;
+    left: 80%;
+    font-size: medium;
+    font-weight: 900;
+    transform: translate(-50%,-50%);
+    user-select: none;
+    margin: auto;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    border-radius: 16px;
+    font-size: 2em;
+}
+.goButton{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    font-family: 'Lato', sans-serif;
+    position: absolute;
+    color: #141414;
+    top: 70%;
+    left: 50%;
+    font-size: medium;
+    font-weight: 900;
+    transform: translate(-50%,-50%);
+    user-select: none;
+    margin: auto;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    border-radius: 16px;
+    font-size: 2em;
+}
+
+.gameDisplay{
+    width:50%;
+    height:30%;
+    user-select: none;
+    font-family: 'Lato', sans-serif;
+    position: absolute;
+    color: white;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%);
+    margin: auto;
+    border-radius: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align:left;
+    font-size: 2.5em;
+    overflow-wrap: normal;
+    text-after-overflow: "aaaa";
+
+
+}
+
+
+.container{
+    user-select: none;
+    border-width: 2px;
+    border-color: black;
+    position:absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 75%;
+    text-align: center;
+}
+
+>>>>>>> neem
 
 .box {
     user-select: none;
@@ -315,13 +419,37 @@ footer{
 }
 .box:hover {
 
+<<<<<<< HEAD
     height: 70px;
+=======
+    height: 80px;
+>>>>>>> neem
     width: 70px;
     display: inline-block;
     border-radius: 12px;
     background-color: #484848;
 }
 
+<<<<<<< HEAD
+.unsolved{
+    user-select: none;
+    color:yellow;
+=======
+.box.hovered {
+    height: 80px;
+    width: 70px;
+    display: inline-block;
+    background-color: #484848;
+>>>>>>> neem
+}
+.solved{
+    user-select: none;
+    color:#009E73;
+}
+
+
+<<<<<<< HEAD
+=======
 .unsolved{
     user-select: none;
     color:yellow;
@@ -332,6 +460,7 @@ footer{
 }
 
 
+>>>>>>> neem
 .letters {
     user-select: none;
     font-family: 'Lato', sans-serif;
@@ -363,12 +492,21 @@ footer{
     color:#009E73;
     font-size: 3rem;
     font-weight: bold;
+<<<<<<< HEAD
 }
 
 .form{
     display: none;
 }
 
+=======
+}
+
+.form{
+    display: none;
+}
+
+>>>>>>> neem
 
 .intro {
     font-family: 'Lato', sans-serif;
@@ -483,6 +621,46 @@ form .text_field {
 
 .button2:hover {
     background-color: #4CAF50;
+<<<<<<< HEAD
+    color: white;
+}
+
+.button3 {
+    width: 201px;
+    height: 100px;
+    float: right;
+    font-family: 'Lato', sans-serif;
+    background-color: #141414;
+    color: white;
+    border-radius: 40px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1em;
+    user-select: none;
+}
+.button4{
+    width: 201px;
+    height: 67px;
+    float: right;
+    font-family: 'Lato', sans-serif;
+    background-color: #141414;
+    color: white;
+    border-radius: 40px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1em;
+    user-select: none;
+}
+
+.button4:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button3:hover {
+    background-color: #4CAF50;
+=======
+>>>>>>> neem
     color: white;
 }
 
@@ -521,6 +699,36 @@ form .text_field {
 .button3:hover {
     background-color: #4CAF50;
     color: white;
+}
+
+.button5 {
+    margin-left: 45%;
+    width: 140px;
+    height: 80px;
+    font-family: 'Lato', sans-serif;
+    background-color: #141414;
+    color: white;
+    border-radius: 40px;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1em;
+    user-select: none;
+}
+
+.button6 {
+    position: absolute;
+    bottom: 5%;
+    width: 150px;
+    height: 100px;
+    font-family: 'Lato', sans-serif;
+    background-color: transparent;
+    color: #f6a524;
+    border-radius: 0;
+    border-color: transparent;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 22px;
+    user-select: none;
 }
 
 .clickable {
@@ -598,8 +806,13 @@ form .text_field {
 
 .content-table {
     border-collapse: collapse;
+<<<<<<< HEAD
     margin: 25px 0;
     font-size: 0.9em;
+=======
+    margin: 25px auto;
+    font-size: 1.1em;
+>>>>>>> neem
     min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
@@ -638,6 +851,16 @@ form .text_field {
     padding: 3px;
 }
 
+<<<<<<< HEAD
+=======
+.progress_div2 {
+    height: 20px;
+    width: 90%;
+    border: 1px solid black;
+    position: relative;
+    padding: 3px;
+}
+>>>>>>> neem
 .progress_span {
     height: 20px;
     background-color: #32cd32;
@@ -645,7 +868,11 @@ form .text_field {
 }
 
 
+<<<<<<< HEAD
 .score{
+=======
+.score {
+>>>>>>> neem
     user-select: none;
     color: #141414;
     font-family: 'Lato', sans-serif;
@@ -661,6 +888,37 @@ form .text_field {
     text-align: center;
 
 }
+<<<<<<< HEAD
+=======
+
+.name {
+    position: fixed;
+    top: 0;
+    right: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+
+.mainProgress {
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+.mainProgress > textnode {
+    margin-left: 40%;
+    font-size: 24px;
+    font-weight: 900;
+    color: black;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 10;
+}
+>>>>>>> neem
 /*
 input[type = "submit"] {
     width: 100%;

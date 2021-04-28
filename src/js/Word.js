@@ -152,10 +152,23 @@ Word.prototype = {
         requestJSON(
             studentApiUrl,
             (function (responseObject) {
+                console.log(responseObject);
                 if(responseObject['result'] == null){
                     if(responseObject['problems'] == 'GAME_OVER') {
                         alert("The game has ended");
                         //TODO: Direct to the webpage that shows the students scores.
+                        document.getElementById('ref').style.display = 'block';
+                        document.getElementById('main_div').style.display = 'none';
+                        document.getElementById('wordContainer').style.display = 'none';
+                        document.getElementById('storyContainer').style.display = 'none';
+                        document.getElementById('score').innerText = "";
+                        document.getElementById('logout').style.display = 'none';
+                        document.getElementById('hint').style.visibility = 'none';
+                        //document.getElementById('logout').style.display = 'none';
+
+                        document.getElementById('attention').style.display = 'block';
+                        document.getElementById('attention').innerText = "The game has ended. Please wait for the teachers instruction!";
+
                     }
                     console.log(responseObject);
                 } else {
@@ -164,6 +177,11 @@ Word.prototype = {
                     responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
 
                     document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+
+                    const span2 = document.getElementById('pspan');
+                    span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                        100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+
 
                     if(responseObject['result']['gameEnded'] == true) {
                         console.log(responseObject);

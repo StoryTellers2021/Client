@@ -1,14 +1,33 @@
 const intro = document.getElementById('intro');
+<<<<<<< HEAD
+=======
+
+/**
+ * For intro ZIW -> WIZ
+ */
+>>>>>>> neem
 if(intro) {
     fixSpelling();
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * displays the login box
+ */
+>>>>>>> neem
 function displayLogin(){
     document.getElementById("hidden").style.display = "contents";
     let element= document.getElementById("intro");
     element.remove();
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * fix spelling method.
+ */
+>>>>>>> neem
 function fixSpelling(){
     let title = document.getElementsByClassName("one")[0];
     let change = document.getElementById("change");
@@ -46,6 +65,9 @@ if (formS) {
     });
 }
 
+/**
+ * Function that requests the student api.
+ */
 function requestStudentAPI() {
     if(document.getElementsByName('student-id')[0].value == null) {
         alert("Please input a student id to login");
@@ -80,6 +102,10 @@ function requestStudentAPI() {
                     else {
                         document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
                         document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
+<<<<<<< HEAD
+=======
+                        document.getElementById('logout').style.display = 'block';
+>>>>>>> neem
 
 
                         refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
@@ -88,6 +114,7 @@ function requestStudentAPI() {
 
                         console.log(responseObject['result']);
 
+<<<<<<< HEAD
                         const maindiv = document.createElement('div');
                         maindiv.className = "mainProgress";
                         const text = document.createTextNode("current story progress");
@@ -107,6 +134,14 @@ function requestStudentAPI() {
                         document.body.appendChild(maindiv);
 
 
+=======
+                        const main_div = document.getElementById('main_div');
+                        main_div.style.display = 'block';
+                        const span2 = document.getElementById('pspan');
+                        span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                            100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+
+>>>>>>> neem
                         document.getElementById('studentSolutionId').value = schoolStudentId;
 
                         if (responseObject['result']['solvedWords'].length == responseObject['result']['story']['solvableWordIndexes'].length) {
@@ -125,6 +160,7 @@ function requestStudentAPI() {
     }
 }
 
+<<<<<<< HEAD
 /**function loadStudent() {
     document.getElementById("storyContainer").innerHTML = "";
     document.getElementById("wordContainer").innerHTML = "";
@@ -148,6 +184,11 @@ function requestStudentAPI() {
     }
 }*/
 
+=======
+/**
+ * Function that requests the teacher api.
+ */
+>>>>>>> neem
 function requestTeacherAPI() {
     if(document.getElementsByName('teacher-code')[0].value == null) {
         alert("Please input a teacher id to login");
@@ -160,8 +201,11 @@ function requestTeacherAPI() {
                     alert('No teacher with the id ' + document.getElementsByName('teacher-code')[0].value);
                 } else {
                     setCookie("tid",document.getElementsByName('teacher-code')[0].value, 1);
+                    setCookie("tfname", responseObject['result']['firstName'],1);
+                    setCookie('tlname', responseObject['result']['lastName'],1);
                     //document.cookie = document.getElementsByName('teacher-code')[0].value;
 
+                    alert("Welcome " + responseObject['result']['firstName'] + " " + responseObject['result']['lastName']);
                     location.replace("./../teacherChoose.html");
                 }
             }, function () {
@@ -173,6 +217,10 @@ function requestTeacherAPI() {
     }
 }
 
+function showName() {
+    document.getElementById('name').innerText = getCookie('tfname') + " " + getCookie('tlname');
+}
+
 /**
  * Refreshes the page with the new story.
  * @param {string} unsolvedStory 
@@ -180,8 +228,10 @@ function requestTeacherAPI() {
  * @param {number[]} solvableWordIndexes 
  */
 function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordIndexes, solvedIndex) {
-    if(newStoryIndex == storyIndex)
+    if(newStoryIndex == storyIndex) {
+        console.log('this is going here');
         return;
+    }
     storyIndex = newStoryIndex;
     document.getElementById("storyContainer").innerHTML = "";
     document.getElementById("wordContainer").innerHTML = "";
@@ -213,6 +263,9 @@ function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordInd
     }
 }
 
+/**
+ * function to show teacher form in the client side.
+ */
 function showTeacher() {
     const teacher = document.getElementById('myformTeacher');
     const student = document.getElementById('myformStudent');
@@ -221,6 +274,9 @@ function showTeacher() {
     student.style.display = 'none';
 }
 
+/**
+ * function to show student form in the client side.
+ */
 function showStudent() {
     const teacher = document.getElementById('myformTeacher');
     const student = document.getElementById('myformStudent');
@@ -229,34 +285,57 @@ function showStudent() {
     student.style.display = 'block';
 }
 
-//TEacher Side HTML references
-//All js code from .js
-// Ask Joachim
-//This is a mess
+/**
+ * replaces the url to teacherSide
+ */
 function teacherSide(){
     location.replace('./../teacherChoose.html');
 }
 
+/**
+ * replaces the url to addStory page.
+ */
 function addStory(){
     location.replace('./../addStory.html');
 }
 
+/**
+ * replaces the url to selecting the words page.
+ */
 function neemSelectS(){
     location.replace('./../SelectWords.html');
 }
 
+/**
+ * replaces the url to login
+ */
 function login(){
     location.replace('./../index.html');
 }
 
+/**
+ * replaces the url to addStudent page.
+ */
 function addStudent() {
     location.replace('./../addStudent.html');
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * replaces the url to studentProgress page.
+ */
+>>>>>>> neem
 function progressClick() {
     location.replace('./../studentProgress.html');
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * Starts the game.
+ */
+>>>>>>> neem
 function startGame() {
     const tc = document.getElementById('tc');
     tc[0].value = getCookie('tid');
@@ -273,6 +352,12 @@ function startGame() {
     )
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * Ends the game.
+ */
+>>>>>>> neem
 function endGame() {
     const tc = document.getElementById('tc');
     tc[0].value = getCookie('tid');
@@ -517,8 +602,9 @@ function EditExistingStory() {
     )
 }
 
-//addStory.js
-//
+/**
+ * function to add story
+ */
 function addStory2(){
     let submit1 = document.getElementById("1");
     let finish1 = document.getElementById("two");
@@ -694,9 +780,17 @@ function showstudentProgress() {
                     }
 
                     let table = document.querySelector("table");
+<<<<<<< HEAD
                     let d = Object.keys(data[0]);
                     MakeTable(table, data);
                     MakeTableHead(table, d);
+=======
+                    table.setAttribute('id', 'myTable');
+                    let d = Object.keys(data[0]);
+                    MakeTable(table, data);
+                    MakeTableHead(table, d);
+                    sortTable();
+>>>>>>> neem
                 },
                 function () {
 
@@ -833,14 +927,26 @@ function clearCookie() {
     }
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * This is for transitioning between end game and start game.
+ */
+>>>>>>> neem
 function refresh() {
     const f = document.getElementById('refreshing');
     f[0].value = getCookie("sid");
     requestJSON(
         "http://localhost:8080/api/v1/student",
         function (responseObject) {
+<<<<<<< HEAD
             document.getElementById("storyContainer").innerHTML = "";
             document.getElementById("wordContainer").innerHTML = "";
+=======
+            document.getElementById('attention').style.display = 'none';
+            document.getElementById('storyContainer').style.display = 'block';
+            document.getElementById('wordContainer').style.display = 'block';
+>>>>>>> neem
 
             if (responseObject['result']['gameStarted'] == false) {
                 document.getElementById("storyContainer").innerHTML = "Please wait fot the teacher to start the game!";
@@ -850,13 +956,32 @@ function refresh() {
             }
             else {
                 document.getElementById("ref").style.display = 'none';
+<<<<<<< HEAD
                 document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+=======
+                document.getElementById('logout').style.display = 'block';
+
+                document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
+                document.getElementById('name').innerText = responseObject['result']['firstName'] + " " + responseObject['result']['lastName'];
+>>>>>>> neem
 
                 refreshStory(responseObject['result']['storyIndex'], responseObject['result']['story']['unsolvedStory'], responseObject['result']['story']['solvedStory'],
                     responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
 
+<<<<<<< HEAD
                 document.getElementById('studentSolutionId').value = getCookie('sid');
 
+=======
+
+                document.getElementById('studentSolutionId').value = getCookie('sid');
+
+                const main_div = document.getElementById('main_div');
+                main_div.style.display = 'block';
+                const span2 = document.getElementById('pspan');
+                span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                    100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+
+>>>>>>> neem
                 if (responseObject['result']['solvedWords'].length == responseObject['result']['story']['solvableWordIndexes'].length) {
                     alert("Congratulations!! You have completed all the stories in the game");
                     //TODO: Direct to a webpage that shows the students score with words that were solved correctly vs incorrectly
@@ -869,4 +994,39 @@ function refresh() {
         false,
         f
     )
+<<<<<<< HEAD
+=======
+}
+
+/**
+ * Function to sort table with first name
+ */
+function sortTable() {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("myTable");
+    switching = true;
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[0];
+            y = rows[i + 1].getElementsByTagName("TD")[0];
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch = true;
+                break;
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
+}
+
+
+function slogout() {
+    clearCookie();
+    location.replace('./../index.html');
+>>>>>>> neem
 }
