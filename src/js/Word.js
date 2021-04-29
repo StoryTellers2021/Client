@@ -178,14 +178,29 @@ Word.prototype = {
 
                     document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
 
-                    const span2 = document.getElementById('pspan');
-                    span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
-                        100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+                    //const span2 = document.getElementById('pspan');
+                    w = parseInt(responseObject['result']['solvedWords'].length) *
+                        100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length);
+
+                    if(w == 0) {
+                        const span2 = document.getElementById('pspan');
+                        span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                           100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+                    }
+                    else {
+                        move(w);
+                    }
 
 
                     if(responseObject['result']['gameEnded'] == true) {
-                        console.log(responseObject);
-                        alert("You have completed the game");
+                        document.getElementById('main_div').style.display = 'none';
+                        document.getElementById('wordContainer').style.display = 'none';
+                        document.getElementById('storyContainer').style.display = 'none';
+                        document.getElementById('hint').style.visibility = 'none';
+                        //document.getElementById('logout').style.display = 'none';
+
+                        document.getElementById('attention').style.display = 'block';
+                        document.getElementById('attention').innerText = "Congratulations! you have completed the game. Please wait for the teachers instruction!";
                         //TODO: Direct to a webpage that shows the student scores and possibly all the solved words.
                     }
                 }
