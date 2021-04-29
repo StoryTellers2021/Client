@@ -659,7 +659,7 @@ function reset(){
  * function to clear the cookie once the teacher logs out.
  */
 function teacherlogout() {
-    clearCookie();
+    setCookie('tid', "",1);
     login();
 }
 
@@ -672,15 +672,21 @@ function showstudentProgress() {
     requestJSON(
         'http://localhost:8080/api/v1/teacher/game',
         function(responseObject) {
-            const game = responseObject['result']['stories'].length;
-            const nd = ["st", "nd", "rd", "th"];
+            const stories = responseObject['result']['stories'];
+            const game = stories.length;
+            const end_word = responseObject['result']['stories'][stories.length-1]['solvableWordIndexes'].length;
             requestJSON(
                 "http://localhost:8080/api/v1/teacher/students",
                 function(responseObject) {
                     let data = [];
-
+                    let g_prog;
                     for (let i = 0; i < responseObject['result'].length; i++) {
-                        const g_prog = parseInt(responseObject['result'][i]['storyIndex'])*100/game;
+                        if (responseObject['result'][i]['storyIndex'] == game-1 && responseObject['result'][i]['solvedWords'].length == end_word) {
+                            g_prog = 100;
+                        }
+                        else {
+                            g_prog = parseInt(responseObject['result'][i]['storyIndex'])*100/game;
+                        }
 
                         const div = document.createElement('div');
                         const span = document.createElement('div');
@@ -698,7 +704,6 @@ function showstudentProgress() {
                         span2.style.width = parseInt(responseObject['result'][i]['solvedWords'].length) *
                             100/ parseInt(responseObject['result'][i]['story']['solvableWordIndexes'].length) + "%";
                         div2.appendChild(span2);
-                        console.log(span2);
 
                         data.push({
                             FirstName: responseObject['result'][i]['firstName'],
@@ -933,6 +938,27 @@ function sortTable() {
 
 
 function slogout() {
-    clearCookie();
+    setCookie('sid', "",1);
     location.replace('./../index.html');
+}
+
+var i = 0;
+function move(w) {
+    if (i == 0) {
+        i = 1;
+        var elem = document.getElementById("pspan");
+        var width = elem.style.width;
+        width = parseInt(width.substr(0,width.length -1));
+        var id = setInterval(frame, 10);
+
+        function frame() {
+            if (width >= w) {
+                clearInterval(id);
+                i = 0;
+            } else {
+                width++;
+                elem.style.width = width + "%";
+            }
+        }
+    }
 }

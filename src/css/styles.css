@@ -236,6 +236,7 @@ footer{
     font-size: 2em;
 }
 .goButton{
+    bottom: 0;
     background-color: Transparent;
     background-repeat:no-repeat;
     font-family: 'Lato', sans-serif;
@@ -245,7 +246,7 @@ footer{
     left: 50%;
     font-size: medium;
     font-weight: 900;
-    transform: translate(-50%,-50%);
+    transform: translate(30%,-50%);
     user-select: none;
     margin: auto;
     text-transform: uppercase;
@@ -256,9 +257,12 @@ footer{
     outline:none;
     border-radius: 16px;
     font-size: 2em;
+    height: 80px;
+    width: 200px;
 }
 
 .gameDisplay{
+    display: block;
     width:50%;
     height:30%;
     user-select: none;
@@ -274,9 +278,10 @@ footer{
     text-transform: uppercase;
     text-align:left;
     font-size: 2.5em;
-    overflow-wrap: normal;
     text-after-overflow: "aaaa";
-
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
 
 }
 
@@ -397,6 +402,29 @@ footer{
     font-family: 'Lato', sans-serif;
     text-align: center;
     padding: 0 0 20px 0;
+}
+
+.addh1 {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+    font-weight: 900;
+    font-size: 36px;
+}
+
+.addh4 {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+    font-size: 24px;
+}
+
+.addtext {
+    position: fixed;
+    transform: translate(50%, 0%);
+    font-size: 26px;
 }
 
 .intro form {
@@ -530,17 +558,18 @@ form .text_field {
 }
 
 .button5 {
-    margin-left: 45%;
+    margin-left: 40%;
     width: 140px;
     height: 80px;
     font-family: 'Lato', sans-serif;
     background-color: #141414;
     color: white;
-    border-radius: 40px;
+    border-radius: 400px;
     text-transform: uppercase;
     font-weight: 900;
     font-size: 1em;
     user-select: none;
+    transform: translate(50%, 50%);
 }
 
 .button6 {
@@ -725,12 +754,6 @@ form .text_field {
     font-size: 24px;
     font-weight: 900;
     color: black;
-}
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 10;
 }
 /*
 input[type = "submit"] {
