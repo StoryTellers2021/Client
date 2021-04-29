@@ -100,8 +100,6 @@ function requestStudentAPI() {
                             responseObject['result']['story']['solvableWordIndexes'], responseObject['result']['solvedWords']);
 
 
-                        console.log(responseObject['result']);
-
                         const main_div = document.getElementById('main_div');
                         main_div.style.display = 'block';
                         const span2 = document.getElementById('pspan');
@@ -169,7 +167,6 @@ function showName() {
  */
 function refreshStory(newStoryIndex, unsolvedStory, solvedStory, solvableWordIndexes, solvedIndex) {
     if(newStoryIndex == storyIndex) {
-        console.log('this is going here');
         return;
     }
     storyIndex = newStoryIndex;
@@ -316,7 +313,11 @@ function OptionsExistingStory() {
         "http://localhost:8080/api/v1/teacher/game",
         function (responseObject) {
             const s_list = responseObject['result']['stories'];
-            let index = 0;
+            let index = getCookie('index') || 0;
+
+            if (index == 0) {
+                document.getElementById('previousStory').style.display = 'none';
+            }
             showEditingStory();
 
             function showEditingStory() {
@@ -331,14 +332,13 @@ function OptionsExistingStory() {
                 storyContainer.innerHTML = '';
 
                 scarmbleWordIndex = s_list[index]['solvableWordIndexes'];
-                console.log(scarmbleWordIndex);
 
                 for(var i = 0; i < story_words.length; i++) {
                     wordElement = document.createElement('span');
                     if (scarmbleWordIndex.includes(i)) {
-                        wordElement.className = 'unclickable';
-                    } else {
                         wordElement.className = 'clickable';
+                    } else {
+                        wordElement.className = 'unclickable';
                     }
                     const word = story_words[i];
 
@@ -347,22 +347,27 @@ function OptionsExistingStory() {
                     storyContainer.appendChild(wordElement);
                 }
 
-
                 document.getElementById("nextStory").onclick = function () {
-                    if (index == s_list.length-1) {
-                        alert("This is the last story on the game list.");
+                    if (index == s_list.length-2) {
+                        document.getElementById('nextStory').style.display = 'none';
+                        index++;
+                        showEditingStory();
                     }
                     else {
+                        document.getElementById('previousStory').style.display = 'block';
                         index ++;
                         showEditingStory();
                     }
                 }
 
                 document.getElementById("previousStory").onclick = function () {
-                    if (index == 0) {
-                        alert("This is the fisrt story on the game list.");
+                    if (index == 1) {
+                        document.getElementById('previousStory').style.display = 'none';
+                        index --;
+                        showEditingStory();
                     }
                     else {
+                        document.getElementById('nextStory').style.display = 'block';
                         index --;
                         showEditingStory();
                     }
@@ -403,15 +408,14 @@ function SelectWordsFromStory() {
                 storyContainer.innerHTML = '';
 
                 scarmbleWordIndex = s_list[index]['solvableWordIndexes'];
-                console.log(scarmbleWordIndex);
 
                 for(var i = 0; i < story_words.length; i++) {
                     wordElement = document.createElement('span');
                     if (scarmbleWordIndex.includes(i)) {
-                        wordElement.className = 'unclickable';
+                        wordElement.className = 'clickable';
                     }
                     else {
-                        wordElement.className = 'clickable';
+                        wordElement.className = 'unclickable';
                     }
                     const word = story_words[i];
 
@@ -428,7 +432,6 @@ function SelectWordsFromStory() {
                             scarmbleWordIndex.splice(index, 1);
                             this.className = 'clickable';
                         }
-                        console.log(scarmbleWordIndex);
                     };
 
                     storyContainer.appendChild(wordElement);
@@ -457,7 +460,6 @@ function EditExistingStory() {
     finish1.style.visibility = "hidden";
 
     let teacherCodeForm = document.getElementById("EditStory");
-    console.log(teacherCodeForm);
     teacherCodeForm[0].value = getCookie("tid");
 
     requestJSON(
@@ -465,7 +467,6 @@ function EditExistingStory() {
         function(responseObject) {
             let newStory = document.getElementById("newStory");
             newStory.value = responseObject['result']['stories'][getCookie("index")]['solvedStory'];
-            console.log(newStory.value);
 
             submit1.onclick = function(){
                 let newStory = document.getElementById("newStory").value.trim();
@@ -576,9 +577,7 @@ function addStory2(){
             addStory();
         }
     }
-
     
-
     function selectWords() {
         storyContainer = document.getElementById('selectedstory');
 
@@ -622,8 +621,6 @@ function addStory2(){
      * This sends the data to the server with the new story to add.
      */
     finish1.onclick =  function(){
-        console.log(scarmbleWordIndex);
-        console.log(story);
 
         const f_add = document.getElementById('add_story_form');
 
@@ -806,10 +803,6 @@ function addNewStudent() {
         },
         function() {
             alert("The student could not be added.");
-            console.log(add_student_form[0]);
-            console.log(add_student_form[1]);
-            console.log(add_student_form[2]);
-            console.log(add_student_form[3]);
         }, false,
         add_student_form
     )
@@ -882,17 +875,16 @@ function refresh() {
     requestJSON(
         "http://localhost:8080/api/v1/student",
         function (responseObject) {
-            document.getElementById('attention').style.display = 'none';
-            document.getElementById('storyContainer').style.display = 'block';
-            document.getElementById('wordContainer').style.display = 'block';
-
             if (responseObject['result']['gameStarted'] == false) {
-                document.getElementById("storyContainer").innerHTML = "Please wait fot the teacher to start the game!";
+                document.getElementById("attention").innerHTML = "Please wait fot the teacher to start the game!";
             }
             else if (responseObject['result']['gameEnded'] == true) {
-                document.getElementById("storyContainer").innerHTML = "The game has ended. Please consult the teacher!"
+                document.getElementById("attention").innerHTML = "The game has ended. Please consult the teacher!"
             }
             else {
+                document.getElementById('attention').style.display = 'none';
+                document.getElementById('storyContainer').style.display = 'block';
+                document.getElementById('wordContainer').style.display = 'block';
                 document.getElementById("ref").style.display = 'none';
                 document.getElementById('logout').style.display = 'block';
 
@@ -978,3 +970,84 @@ function move(w) {
     }
 }
 
+function preview() {
+    const get_story = document.getElementById("get_stories");
+    get_story[0].value = getCookie("tid");
+    requestJSON(
+        "http://localhost:8080/api/v1/teacher/game",
+        function (responseObject) {
+            const s_list = responseObject['result']['stories'];
+            let index = 0;
+            document.getElementById('previousStory').style.display = 'none';
+            showEditingStory();
+
+            function showEditingStory() {
+                setCookie("index",index,1);
+                const storyContainer = document.getElementById("story");
+                storyContainer.innerText = s_list[index]['solvedStory'];
+
+                story = storyContainer.innerHTML;
+                story = story.trim();
+                story_words = story.split(" ");
+
+                unsolvedStory = s_list[index]['unsolvedStory'];
+                unsolvedStory = unsolvedStory.trim();
+                unsolvedStory = unsolvedStory.split(" ");
+
+                storyContainer.innerHTML = '';
+
+                console.log(s_list);
+                scarmbleWordIndex = s_list[index]['solvableWordIndexes'];
+
+
+                for(var i = 0; i < story_words.length; i++) {
+                    wordElement = document.createElement('span');
+                    if (scarmbleWordIndex.includes(i)) {
+                        wordElement.className = 'clickable';
+
+                        const word = unsolvedStory[i];
+                        wordElement.innerHTML = word;
+                    } else {
+                        wordElement.className = 'unclickable';
+
+                        const word = story_words[i];
+                        wordElement.innerHTML = word;
+                    }
+
+                    storyContainer.appendChild(wordElement);
+                }
+
+                document.getElementById("nextStory").onclick = function () {
+                    if (index == s_list.length-2) {
+                        document.getElementById('nextStory').style.display = 'none';
+                        index++;
+                        showEditingStory();
+                    }
+                    else {
+                        document.getElementById('previousStory').style.display = 'block';
+                        index ++;
+                        showEditingStory();
+                    }
+                }
+
+                document.getElementById("previousStory").onclick = function () {
+                    if (index == 1) {
+                        document.getElementById('previousStory').style.display = 'none';
+                        index --;
+                        showEditingStory();
+                    }
+                    else {
+                        document.getElementById('nextStory').style.display = 'block';
+                        index --;
+                        showEditingStory();
+                    }
+                }
+            }
+        },
+        function () {
+            alert("Story could not loaded at this time.");
+        },
+        false,
+        get_story
+    )
+}
