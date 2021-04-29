@@ -151,6 +151,11 @@ async function getFileOutput(requestFile, nonVerbose){
             code = 200;
             type = HTML_CONTENT_TYPE;
             text = fs.readFileSync('src/editStory.html', 'utf-8');
+        break;
+        case 'previewStory.html':
+            code = 200;
+            type = HTML_CONTENT_TYPE;
+            text = fs.readFileSync('src/previewStory.html', 'utf-8');
     }
     code == 0 ? console.log('Unrecognized file `' + requestFile + '`, output is empty.') : console.log('Output file `' + requestFile + '`.');
     return {
