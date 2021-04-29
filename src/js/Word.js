@@ -45,6 +45,8 @@ Word.prototype = {
     
                     letters[i].textContent = word[i];
                     letters[i].className += ' lettershint';
+                    let par = letters[i].parentNode;
+                    par.className ="box2";
                     found = true;
     
                     letters[i].setAttribute('draggable', false);
@@ -141,7 +143,7 @@ Word.prototype = {
         var str = this.studentSolution;
         str = str.substring(0, oldIndex) + this.studentSolution[newIndex] + str.substring(oldIndex + 1);
         str = str.substring(0, newIndex) + this.studentSolution[oldIndex] + str.substring(newIndex + 1);
-        this.clickableWordElement.innerText = this.studentSolution = str + " ";
+        this.clickableWordElement.innerText = this.studentSolution = str;
         return str;
     },
     checkStudentSolution: function() {
@@ -150,10 +152,23 @@ Word.prototype = {
         requestJSON(
             studentApiUrl,
             (function (responseObject) {
+                console.log(responseObject);
                 if(responseObject['result'] == null){
                     if(responseObject['problems'] == 'GAME_OVER') {
                         alert("The game has ended");
                         //TODO: Direct to the webpage that shows the students scores.
+                        document.getElementById('ref').style.display = 'block';
+                        document.getElementById('main_div').style.display = 'none';
+                        document.getElementById('wordContainer').style.display = 'none';
+                        document.getElementById('storyContainer').style.display = 'none';
+                        document.getElementById('score').innerText = "";
+                        document.getElementById('logout').style.display = 'none';
+                        document.getElementById('hint').style.visibility = 'none';
+                        //document.getElementById('logout').style.display = 'none';
+
+                        document.getElementById('attention').style.display = 'block';
+                        document.getElementById('attention').innerText = "The game has ended. Please wait for the teachers instruction!";
+
                     }
                     console.log(responseObject);
                 } else {
@@ -163,9 +178,29 @@ Word.prototype = {
 
                     document.getElementById("score").innerText = "score: " + responseObject['result']['score'];
 
+                    //const span2 = document.getElementById('pspan');
+                    w = parseInt(responseObject['result']['solvedWords'].length) *
+                        100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length);
+
+                    if(w == 0) {
+                        const span2 = document.getElementById('pspan');
+                        span2.style.width = parseInt(responseObject['result']['solvedWords'].length) *
+                           100/ parseInt(responseObject['result']['story']['solvableWordIndexes'].length) + "%";
+                    }
+                    else {
+                        move(w);
+                    }
+
+
                     if(responseObject['result']['gameEnded'] == true) {
-                        console.log(responseObject);
-                        alert("You have completed the game");
+                        document.getElementById('main_div').style.display = 'none';
+                        document.getElementById('wordContainer').style.display = 'none';
+                        document.getElementById('storyContainer').style.display = 'none';
+                        document.getElementById('hint').style.visibility = 'none';
+                        //document.getElementById('logout').style.display = 'none';
+
+                        document.getElementById('attention').style.display = 'block';
+                        document.getElementById('attention').innerText = "Congratulations! you have completed the game. Please wait for the teachers instruction!";
                         //TODO: Direct to a webpage that shows the student scores and possibly all the solved words.
                     }
                 }
