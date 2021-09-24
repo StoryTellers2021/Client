@@ -1,1 +1,1 @@
-# Clinet
+# Client respository
